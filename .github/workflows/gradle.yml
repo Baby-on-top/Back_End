@@ -21,7 +21,7 @@ jobs:
         with:
           java-version: '17'
           distribution: 'adopt'
-      - name : make application.yml
+      - name : Copy properties
         env:
           application_yml : ${{ secrets.APPLICATION }}
           application_yml_dir : src/main/resources
