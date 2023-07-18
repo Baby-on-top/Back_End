@@ -19,20 +19,24 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class AwsS3Service {
     private static final String FILE_EXTENSION_SEPARATOR = ".";
+    // TODO : custom domain으로 수정 필요
     private static final String IMAGE_URL = "https://dprllohwojeet.cloudfront.net/";
 
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
+    @Value("${cloud.aws.s3.img-path}")
+    private String imagePath;
     private final AmazonS3 amazonS3;
 
     public String uploadImage(MultipartFile file) {
         String fileName = createFileName(file.getOriginalFilename());
-        String imageUrl = IMAGE_URL + fileName;
+        String imageUrl = IMAGE_URL + imagePath + fileName;
+        System.out.println("imageUrl = " + imageUrl);
         ObjectMetadata objectMetadata = new ObjectMetadata();
         objectMetadata.setContentLength(file.getSize());
         objectMetadata.setContentType(file.getContentType());
         try (InputStream inputStream = file.getInputStream()) {
-            amazonS3.putObject(new PutObjectRequest(bucket, fileName, inputStream, objectMetadata)
+            amazonS3.putObject(new PutObjectRequest(bucket, imageUrl, inputStream, objectMetadata)
                     .withCannedAcl(CannedAccessControlList.PublicRead));
         } catch (IOException e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "이미지 업로드에 실패했습니다.");
