@@ -5,9 +5,9 @@ import baby.lignin.auth.model.Token;
 import baby.lignin.auth.model.response.MemberResponse;
 import baby.lignin.auth.service.MemberService;
 
-import baby.lignin.auth.util.ApiResponse;
-import baby.lignin.auth.util.ApiResponseGenerator;
-import baby.lignin.auth.util.MessageCode;
+import baby.lignin.support.ApiResponse;
+import baby.lignin.support.ApiResponseGenerator;
+import baby.lignin.support.MessageCode;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
