@@ -31,12 +31,12 @@ public class AwsS3Service {
     public String uploadImage(MultipartFile file) {
         String fileName = createFileName(file.getOriginalFilename());
         String imageUrl = IMAGE_URL + imagePath + fileName;
-        System.out.println("imageUrl = " + imageUrl);
+        String imageDir = imagePath + fileName;
         ObjectMetadata objectMetadata = new ObjectMetadata();
         objectMetadata.setContentLength(file.getSize());
         objectMetadata.setContentType(file.getContentType());
         try (InputStream inputStream = file.getInputStream()) {
-            amazonS3.putObject(new PutObjectRequest(bucket, imageUrl, inputStream, objectMetadata)
+            amazonS3.putObject(new PutObjectRequest(bucket, imageDir, inputStream, objectMetadata)
                     .withCannedAcl(CannedAccessControlList.PublicRead));
         } catch (IOException e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "이미지 업로드에 실패했습니다.");
