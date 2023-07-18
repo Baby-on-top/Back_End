@@ -19,7 +19,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class AwsS3Service {
     private static final String FILE_EXTENSION_SEPARATOR = ".";
-    private static final String IMAGE_URL = "https://lignin-image.s3.ap-northeast-2.amazonaws.com/";
+    private static final String IMAGE_URL = "https://dprllohwojeet.cloudfront.net/";
 
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
