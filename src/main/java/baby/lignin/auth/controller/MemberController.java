@@ -38,14 +38,14 @@ public class MemberController {
 
     @Operation(summary = "사용자 유저 정보")
     @GetMapping(value = "/info")
-    public ApiResponse<ApiResponse.SuccessBody<MemberResponse>> getUserInfo(@RequestHeader("Authorization") String token) throws Exception {
+    public ApiResponse<ApiResponse.SuccessBody<MemberResponse>> getUserInfo(@RequestHeader("Token") String token) throws Exception {
         return ApiResponseGenerator.success(memberService.getUserInfo(token),HttpStatus.OK, MessageCode.SUCCESS);
     }
 
 
     @Operation(summary = "로그아웃")
     @RequestMapping(value="/logout", method= RequestMethod.GET)
-    public ApiResponse<ApiResponse.SuccessBody<Void>> logout(@RequestHeader("Authorization") String token) {
+    public ApiResponse<ApiResponse.SuccessBody<Void>> logout(@RequestHeader("Token") String token) {
         memberService.logout(token);
         System.out.println("왜 실패지? " + MessageCode.SUCCESS);
         return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.SUCCESS);
@@ -55,7 +55,7 @@ public class MemberController {
 
     @Operation(summary = "사용자 탈퇴")
     @RequestMapping(value="/unlink", method= RequestMethod.GET)
-    public ApiResponse<ApiResponse.SuccessBody<Void>> access(@RequestHeader("Authorization") String token) {
+    public ApiResponse<ApiResponse.SuccessBody<Void>> access(@RequestHeader("Token") String token) {
         memberService.unlink(token);
         return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_DELETED);
     }

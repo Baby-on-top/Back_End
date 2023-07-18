@@ -19,7 +19,6 @@ public class TokenResolver {
      * 토큰에서 memberId 조회
      */
     public Optional<Long> resolveToken(String token) {
-        System.out.println("secretKey : " + secretKey);
         try {
             return Optional.ofNullable(
                     Jwts.parserBuilder()
