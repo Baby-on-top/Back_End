@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Tag(name = "Workspace", description = "WorkSpace API")
+@CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/api/workspace")

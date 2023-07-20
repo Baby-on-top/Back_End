@@ -21,6 +21,7 @@ import java.io.*;
 import java.util.*;
 
 @Tag(name = "Login API", description = "로그인/인증")
+@CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/api/member")
