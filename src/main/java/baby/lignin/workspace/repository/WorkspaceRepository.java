@@ -8,5 +8,6 @@ import java.util.List;
 
 public interface WorkspaceRepository extends JpaRepository<WorkSpaceEntitiy,Long> {
 
-    List<WorkSpaceEntitiy> findByMemberId(Long memberId);
+    List<WorkSpaceEntitiy> findByCreateId(Long createId);
+    //WorkSpaceEntitiy findById(Long workspaceId);
 }

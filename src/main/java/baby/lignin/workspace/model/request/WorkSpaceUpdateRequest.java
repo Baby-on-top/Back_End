@@ -9,9 +9,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class WorkSpaceCreateRequest {
-    private Long createId;
+public class WorkSpaceUpdateRequest {
+    private Long workspaceId;
     private String name;
     private String image;
-
 }

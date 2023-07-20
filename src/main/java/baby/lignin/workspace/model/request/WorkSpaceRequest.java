@@ -11,5 +11,5 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class WorkSpaceRequest {
-    private Long memberId;
+    private Long createId;
 }

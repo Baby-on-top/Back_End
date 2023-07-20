@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class WorkSpaceResponse {
     private Long workspaceId;
-    private Long memberId;
+    private Long createId;
     private String name;
     private String image;
 }
