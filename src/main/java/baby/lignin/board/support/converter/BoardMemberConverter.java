@@ -1,7 +1,7 @@
 package baby.lignin.board.support.converter;
 
 import baby.lignin.board.entity.BoardMemberEntity;
-import baby.lignin.board.model.request.BoardInviteRequest;
+import baby.lignin.board.model.request.BoardMemberInviteRequest;
 import baby.lignin.board.model.response.BoardMemberResponse;
 import lombok.experimental.UtilityClass;
 
@@ -13,14 +13,14 @@ public class BoardMemberConverter {
         }
 
         return BoardMemberResponse.builder()
-                .boardId(boardMemberEntity.getBoard_id())
-                .memberId(boardMemberEntity.getMember_id())
+                .boardId(boardMemberEntity.getBoardId())
+                .memberId(boardMemberEntity.getMemberId())
                 .build();
     }
-    public BoardMemberEntity to(BoardInviteRequest request) {
+    public BoardMemberEntity to(BoardMemberInviteRequest request) {
         return BoardMemberEntity.builder()
-                .board_id(request.getBoardId())
-                .member_id(request.getMemberId())
+                .boardId(request.getBoardId())
+                .memberId(request.getMemberId())
                 .build();
     }
 }

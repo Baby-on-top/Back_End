@@ -1,6 +1,7 @@
 package baby.lignin.board.controller;
 
-import baby.lignin.board.model.request.BoardInviteRequest;
+import baby.lignin.board.model.request.BoardMemberDeleteRequest;
+import baby.lignin.board.model.request.BoardMemberInviteRequest;
 import baby.lignin.board.model.response.BoardMemberResponse;
 import baby.lignin.board.service.BoardMemberService;
 import baby.lignin.board.support.ApiResponse;
@@ -16,7 +17,13 @@ import org.springframework.web.bind.annotation.*;
 public class BoardMemberRestController {
     private final BoardMemberService boardMemberService;
     @PostMapping
-    public ApiResponse<ApiResponse.SuccessBody<BoardMemberResponse>> invite(@RequestBody BoardInviteRequest request) {
-        return ApiResponseGenerator.success(boardMemberService.inviteBoard(request), HttpStatus.OK, MessageCode.RESOURCE_CREATED);
+    public ApiResponse<ApiResponse.SuccessBody<BoardMemberResponse>> invite(@RequestBody BoardMemberInviteRequest request) {
+        return ApiResponseGenerator.success(boardMemberService.inviteBoardMember(request), HttpStatus.OK, MessageCode.RESOURCE_CREATED);
+    }
+
+    @DeleteMapping
+    public ApiResponse<ApiResponse.SuccessBody<Void>> delete(@RequestHeader("Token") String token, @RequestBody BoardMemberDeleteRequest request) {
+        boardMemberService.deleteBoardMember(token, request);
+        return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_DELETED);
     }
 }

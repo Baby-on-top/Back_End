@@ -18,8 +18,13 @@ public class BoardMemberEntity {
     private Long id;
 
     @Column(nullable = false)
-    private Long board_id;
+    private Long boardId;
 
     @Column(nullable = false)
-    private Long member_id;
+    private Long memberId;
+
+    public BoardMemberEntity(Long id, Long memberId) {
+        this.boardId =id;
+        this.memberId = memberId;
+    }
 }

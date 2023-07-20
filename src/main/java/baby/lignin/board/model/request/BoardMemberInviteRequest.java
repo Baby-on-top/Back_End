@@ -7,7 +7,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class BoardInviteRequest {
+public class BoardMemberInviteRequest {
     private Long boardId;
     private Long memberId;
 }
