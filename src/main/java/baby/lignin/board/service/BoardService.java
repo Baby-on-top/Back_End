@@ -36,11 +36,12 @@ public class BoardService {
         return request.getWorkspaceId() + ":" + request.getSearchKeyword();
     }
 
-    @Cacheable(cacheNames = "boards", key = "{#root.target.makeRedisKey(#request)}")
-    private final BoardMemberRepository boardMemberRepository;
 
     private final TokenResolver tokenResolver;
 
+    private final BoardMemberRepository boardMemberRepository;
+
+    @Cacheable(cacheNames = "boards", key = "{#root.target.makeRedisKey(#request)}")
     public List<BoardResponse> getBoards(String token, BoardBrowseRequest request){
 
         List<BoardEntity> boardEntities = null;
@@ -71,17 +72,6 @@ public class BoardService {
             for (BoardEntity boardEntity : boardEntities){
                 boardMember_List.add(BoardConverter.from(boardEntity));
             }
-    public List<BoardResponse> getBoards(BoardBrowseRequest request){
-
-        List<BoardEntity> boardEntities;
-        if (request.getSearchKeyword() == null) {
-            boardEntities = boardRepository.findByWorkspaceIdAndDeletedFalse(request.getWorkspaceId())
-                    .stream()
-                    .collect(Collectors.toList());
-        } else {
-            boardEntities = boardRepository.findByWorkspaceIdAndBoardNameContaining(request.getWorkspaceId(), request.getSearchKeyword())
-                    .stream()
-                    .collect(Collectors.toList());
         }
 
         List<BoardResponse> responses = new ArrayList<>();
