@@ -31,12 +31,34 @@ jobs:
         run: chmod +x gradlew
       - name: Build with Gradle
         run: ./gradlew build
+
+      - name: Send docker-compose.yml
+        uses: appleboy/scp-action@master
+        with:
+          username: ubuntu
+          host: ${{ secrets.HOST }}
+          key: ${{ secrets.PRIVATE_KEY }}
+          port: 22
+          source: "./docker-compose.yml"
+          target: "/home/ubuntu"
+
+      - name: Send deploy.sh
+        uses: appleboy/scp-action@master
+        with:
+          username: ubuntu
+          host: ${{ secrets.HOST }}
+          key: ${{ secrets.PRIVATE_KEY }}
+          port: 22
+          source: "./deploy.sh"
+          target: "/home/ubuntu"
+
       - name: Docker build
         run: |
           docker login -u ${{ secrets.USERNAME }} -p ${{ secrets.PASSWORD }}
-          docker build -t spring-cicd .
+          docker build -t spring-cicd -f ./Dockerfile .
           docker tag spring-cicd chwangmin/spring-cicd:${GITHUB_SHA::7}
           docker push chwangmin/spring-cicd:${GITHUB_SHA::7}
+
       - name: Deploy
         uses: appleboy/ssh-action@master
         with:
@@ -47,8 +69,10 @@ jobs:
           script: |
             docker pull chwangmin/spring-cicd:${GITHUB_SHA::7}
             docker tag chwangmin/spring-cicd:${GITHUB_SHA::7} spring-cicd
-            docker stop server
-            docker run -d --rm --name server -p 80:8080 spring-cicd
+            chmod 777 ./deploy.sh
+            ./deploy.sh
+            docker image prune -f
+
       - name: action-slack
         uses: 8398a7/action-slack@v3
         with:
@@ -57,6 +81,5 @@ jobs:
           fields: message,commit,action,job,took
           if_mention: failure,cancelled
         env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
-        if: always() # Pick up events even if the job fails or is canceled
-            
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        if: always()
