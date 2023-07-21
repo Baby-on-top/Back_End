@@ -7,6 +7,7 @@ import baby.lignin.support.MessageCode;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -15,12 +16,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/image")
+@RequestMapping("api/image")
 public class AwsS3Controller {
     private final AwsS3Service awsS3Service;
 
     @Operation(summary = "S3에 이미지 업로드", description = "S3에 이미지를 업로드하여 링크를 생성합니다.")
-    @PostMapping("/upload")
+    @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ApiResponse<ApiResponse.SuccessBody<String>> uploadImage(@RequestPart(value = "file") MultipartFile multipartFile) {
         return ApiResponseGenerator.success(awsS3Service.uploadImage(multipartFile), HttpStatus.CREATED, MessageCode.RESOURCE_CREATED);
     }

@@ -20,16 +20,9 @@ import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.*;
 
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RequiredArgsConstructor
 @Service
@@ -166,15 +159,13 @@ public class MemberServiceImpl implements MemberService {
                 .build();
 
 
-        KakaoUserInfoResponse kakaoUserInfoResponse = webClient.post()
+        return webClient.post()
                 .uri(uriBuilder -> uriBuilder.path("/v2/user/me")
                         .build())
                 .header("Authorization", "Bearer " + access_token)
                 .retrieve()
                 .bodyToMono(KakaoUserInfoResponse.class)
                 .block();
-
-        return kakaoUserInfoResponse;
     }
 
 
