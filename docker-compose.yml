@@ -5,6 +5,8 @@ version: "3.1"
 services:
   # 서비스명
   redis:
+    # 호스트 설정
+    hostname : redis
     # 컨테이너명
     container_name: redis
     # 사용할 이미지
