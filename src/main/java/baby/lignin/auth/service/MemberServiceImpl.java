@@ -159,15 +159,13 @@ public class MemberServiceImpl implements MemberService {
                 .build();
 
 
-        KakaoUserInfoResponse kakaoUserInfoResponse = webClient.post()
+        return webClient.post()
                 .uri(uriBuilder -> uriBuilder.path("/v2/user/me")
                         .build())
                 .header("Authorization", "Bearer " + access_token)
                 .retrieve()
                 .bodyToMono(KakaoUserInfoResponse.class)
                 .block();
-
-        return kakaoUserInfoResponse;
     }
 
 
