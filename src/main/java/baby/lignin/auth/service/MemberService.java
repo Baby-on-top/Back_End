@@ -14,6 +14,7 @@ public interface MemberService {
 
     public MemberResponse getUserInfo(String token) throws Exception;
 
+    public MemberResponse getUserInfo(Long memberId) throws Exception;
 
     public void unlink(String access_Token);
 

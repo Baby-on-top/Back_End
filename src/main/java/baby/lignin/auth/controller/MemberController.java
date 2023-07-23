@@ -36,10 +36,16 @@ public class MemberController {
         return ApiResponseGenerator.success(tk, HttpStatus.OK);
     }
 
-    @Operation(summary = "사용자 유저 정보")
+    @Operation(summary = "나의 정보")
     @GetMapping(value = "/info")
     public ApiResponse<ApiResponse.SuccessBody<MemberResponse>> getUserInfo(@RequestHeader("Token") String token) throws Exception {
         return ApiResponseGenerator.success(memberService.getUserInfo(token),HttpStatus.OK, MessageCode.SUCCESS);
+    }
+
+    @Operation(summary = "사용자 유저 정보")
+    @GetMapping(value = "/info/{memberId}")
+    public ApiResponse<ApiResponse.SuccessBody<MemberResponse>> getUserInfo(@PathVariable Long memberId) throws Exception {
+        return ApiResponseGenerator.success(memberService.getUserInfo(memberId),HttpStatus.OK, MessageCode.SUCCESS);
     }
 
 
@@ -47,7 +53,6 @@ public class MemberController {
     @RequestMapping(value="/logout", method= RequestMethod.GET)
     public ApiResponse<ApiResponse.SuccessBody<Void>> logout(@RequestHeader("Token") String token) {
         memberService.logout(token);
-        System.out.println("왜 실패지? " + MessageCode.SUCCESS);
         return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.SUCCESS);
     }
 
