@@ -10,6 +10,7 @@ import baby.lignin.board.model.response.BoardResponse;
 import baby.lignin.board.repository.BoardMemberRepository;
 import baby.lignin.board.repository.BoardRepository;
 import baby.lignin.board.support.converter.BoardConverter;
+import baby.lignin.image.service.AwsS3Service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import baby.lignin.auth.config.TokenResolver;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +42,8 @@ public class BoardService {
     private final TokenResolver tokenResolver;
 
     private final BoardMemberRepository boardMemberRepository;
+
+    private final AwsS3Service awsS3Service;
 
     @Cacheable(cacheNames = "boards", key = "{#root.target.makeRedisKey(#token, #request)}")
     public List<BoardResponse> getBoards(String token, BoardBrowseRequest request){
@@ -82,7 +86,9 @@ public class BoardService {
         return responses;
     }
 
-    public BoardResponse generateBoard(String token, BoardAddRequest request) {
+    public BoardResponse generateBoard(MultipartFile multipartFile, String token, BoardAddRequest request) {
+        request.setBoardImage(awsS3Service.uploadImage(multipartFile));
+
         BoardEntity boardEntity = boardRepository.save(BoardConverter.to(request));
 
         Optional<Long> memberIdRe = tokenResolver.resolveToken(token);
