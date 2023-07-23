@@ -32,8 +32,8 @@ public class BoardService {
     // new 안써도 됨. 알아서 생성, 주입을 해줌.
     private final BoardRepository boardRepository;
 
-    public String makeRedisKey(BoardBrowseRequest request) {
-        return request.getWorkspaceId() + ":" + request.getSearchKeyword();
+    public String makeRedisKey(String token, BoardBrowseRequest request) {
+        return token + ":" + request.getWorkspaceId() + ":" + request.getSearchKeyword();
     }
 
 
@@ -41,7 +41,7 @@ public class BoardService {
 
     private final BoardMemberRepository boardMemberRepository;
 
-    @Cacheable(cacheNames = "boards", key = "{#root.target.makeRedisKey(#request)}")
+    @Cacheable(cacheNames = "boards", key = "{#root.target.makeRedisKey(#token, #request)}")
     public List<BoardResponse> getBoards(String token, BoardBrowseRequest request){
 
         List<BoardEntity> boardEntities = null;
