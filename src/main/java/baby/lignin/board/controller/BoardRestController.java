@@ -29,7 +29,7 @@ public class BoardRestController {
     }
 
     @PostMapping
-    public ApiResponse<ApiResponse.SuccessBody<BoardResponse>> add(@RequestPart(value = "image") MultipartFile multipartFile , @RequestHeader("Token") String token, @RequestPart(value="info") BoardAddRequest request) {
+    public ApiResponse<ApiResponse.SuccessBody<BoardResponse>> add(@RequestPart(value = "file") MultipartFile multipartFile, @RequestHeader("Token") String token, @RequestPart(value="info") BoardAddRequest request) {
         return ApiResponseGenerator.success(boardService.generateBoard(multipartFile, token, request), HttpStatus.CREATED, MessageCode.RESOURCE_CREATED);
     }
 
