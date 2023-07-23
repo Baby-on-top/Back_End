@@ -85,8 +85,13 @@ public class WorkSpaceController {
 
     @Operation(summary = "WorkSpace 초대", description = "WorkSpace 초대")
     @GetMapping("/invite")
-    public  ApiResponse<ApiResponse.SuccessBody<WorkSpaceMemberResponse>> invite(@RequestHeader("Token") String token, Long roomId) {
-        return ApiResponseGenerator.success(workspaceService.invite(token,roomId),HttpStatus.OK, MessageCode.SUCCESS);
+    public  ApiResponse<ApiResponse.SuccessBody<Void>> invite(@RequestHeader("Token") String token, Long workspaceId,HttpServletResponse response) {
+        WorkSpaceMemberResponse memberResponse = workspaceService.invite(token,workspaceId);
+        Cookie cookie = new Cookie("inviteWorkspaceId",null);
+        cookie.setMaxAge(0);
+        cookie.setPath("/");
+        response.addCookie(cookie);
+        return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.SUCCESS);
     }
 
     @Operation(summary = "WorkSpace에 속한 사용자 정보", description = "WorkSpace에 속한 사용자들을 조회")

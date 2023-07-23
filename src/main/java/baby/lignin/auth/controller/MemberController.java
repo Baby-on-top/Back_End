@@ -9,16 +9,14 @@ import baby.lignin.support.ApiResponse;
 import baby.lignin.support.ApiResponseGenerator;
 import baby.lignin.support.MessageCode;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
-import java.io.*;
-import java.util.*;
 
 @Tag(name = "Login API", description = "로그인/인증")
 @RequiredArgsConstructor
@@ -60,8 +58,16 @@ public class MemberController {
 
     @Operation(summary = "사용자 탈퇴")
     @RequestMapping(value="/unlink", method= RequestMethod.GET)
-    public ApiResponse<ApiResponse.SuccessBody<Void>> access(@RequestHeader("Token") String token) {
+    public ApiResponse<ApiResponse.SuccessBody<Void>> access(@RequestHeader("Token") String token, HttpServletResponse response) {
         memberService.unlink(token);
+        Cookie cookie = new Cookie("accessToken",null);
+        cookie.setMaxAge(0);
+        cookie.setPath("/");
+        response.addCookie(cookie);
+        cookie = new Cookie("refreshToken",null);
+        cookie.setMaxAge(0);
+        cookie.setPath("/");
+        response.addCookie(cookie);
         return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_DELETED);
     }
 
