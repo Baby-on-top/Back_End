@@ -77,6 +77,14 @@ public class MemberServiceImpl implements MemberService {
         return null;
 
     }
+    @Override
+    public MemberResponse getUserInfo(Long memberId) throws Exception {
+
+            MemberEntity memberEntity = memberRepository.findById(memberId)
+                    .orElseThrow(() -> new Exception("찾는 멤버가 없습니다.!"));
+            return MemberConverter.from(memberEntity);
+
+    }
 
     @Override
     public void unlink(String access_Token) {
