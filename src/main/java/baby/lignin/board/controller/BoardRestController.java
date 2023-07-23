@@ -12,6 +12,7 @@ import baby.lignin.board.support.MessageCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -28,8 +29,8 @@ public class BoardRestController {
     }
 
     @PostMapping
-    public ApiResponse<ApiResponse.SuccessBody<BoardResponse>> add(@RequestHeader("Token") String token, @RequestBody BoardAddRequest request) {
-        return ApiResponseGenerator.success(boardService.generateBoard(token, request), HttpStatus.CREATED, MessageCode.RESOURCE_CREATED);
+    public ApiResponse<ApiResponse.SuccessBody<BoardResponse>> add(@RequestPart(value = "file") MultipartFile multipartFile, @RequestHeader("Token") String token, @RequestPart(value="info") BoardAddRequest request) {
+        return ApiResponseGenerator.success(boardService.generateBoard(multipartFile, token, request), HttpStatus.CREATED, MessageCode.RESOURCE_CREATED);
     }
 
     @PatchMapping
