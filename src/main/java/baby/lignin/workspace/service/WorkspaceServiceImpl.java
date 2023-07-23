@@ -2,6 +2,10 @@ package baby.lignin.workspace.service;
 
 
 import baby.lignin.auth.config.TokenResolver;
+import baby.lignin.auth.model.response.MemberResponse;
+import baby.lignin.auth.repository.MemberRepository;
+import baby.lignin.auth.util.converter.MemberConverter;
+import baby.lignin.support.ApiResponse;
 import baby.lignin.workspace.entity.WorkSpaceEntitiy;
 import baby.lignin.workspace.entity.WorkSpaceMemberEntity;
 import baby.lignin.workspace.model.request.WorkSpaceCreateRequest;
@@ -16,6 +20,7 @@ import baby.lignin.workspace.support.converter.WorkspaceCreateConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -28,6 +33,7 @@ public class WorkspaceServiceImpl implements WorkspaceService {
 
     private final WorkspaceRepository workspaceRepository;
     private final WorkspaceMemberRepository workspaceMemberRepository;
+    private final MemberRepository memberRepository;
     private final TokenResolver tokenResolver;
 
     @Override
@@ -82,11 +88,36 @@ public class WorkspaceServiceImpl implements WorkspaceService {
     }
 
     @Override
+    public WorkSpaceMemberResponse invite(String token, Long roomId) {
+        Optional<Long> memberIdRe = tokenResolver.resolveToken(token);
+        Long memberId = memberIdRe.get();
+        WorkSpaceMemberEntity response = workspaceMemberRepository.save(WorkSpaceMemberEntity.builder()
+                .workspaceId(roomId)
+                .memberId(memberId)
+                .build());
+
+        return WorkspaceConverter.from(response);
+    }
+
+    @Override
     public WorkSpaceMemberResponse unlink(String token, WorkSpaceDeleteRequest request) {
         Optional<Long> memberIdRe = tokenResolver.resolveToken(token);
         Long memberId = memberIdRe.get();
         WorkSpaceMemberEntity workSpaceMemberEntity = workspaceMemberRepository.findByMemberIdAndWorkspaceId(memberId,request.getWorkspaceId());
         workspaceMemberRepository.delete(workSpaceMemberEntity);
         return WorkspaceConverter.from(workSpaceMemberEntity);
+    }
+
+    @Override
+    public List<MemberResponse> memberList(Long workspaceId) throws Exception {
+        List<WorkSpaceMemberEntity> memberList = workspaceMemberRepository.findByWorkspaceId(workspaceId).stream().collect(Collectors.toList());
+
+        List<MemberResponse> list = new ArrayList<>();
+        for(WorkSpaceMemberEntity member : memberList){
+            MemberResponse res = MemberConverter.from(memberRepository.findById(member.getMemberId()).orElseThrow(()-> new Exception("new")));
+            list.add(res);
+        }
+
+        return list;
     }
 }

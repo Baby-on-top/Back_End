@@ -1,6 +1,8 @@
 package baby.lignin.workspace.service;
 
 
+import baby.lignin.auth.model.response.MemberResponse;
+import baby.lignin.workspace.entity.WorkSpaceMemberEntity;
 import baby.lignin.workspace.model.request.WorkSpaceCreateRequest;
 import baby.lignin.workspace.model.request.WorkSpaceDeleteRequest;
 import baby.lignin.workspace.model.request.WorkSpaceUpdateRequest;
@@ -21,6 +23,11 @@ public interface WorkspaceService {
 
     public WorkSpaceResponse update(WorkSpaceUpdateRequest request) throws Exception;
 
+    public WorkSpaceMemberResponse invite(String token, Long roomId);
+
     public WorkSpaceMemberResponse unlink(String token, WorkSpaceDeleteRequest request);
+
+
+    public List<MemberResponse> memberList(Long workspaceId) throws Exception;
 
 }
