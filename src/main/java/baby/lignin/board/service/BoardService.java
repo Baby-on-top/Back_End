@@ -86,7 +86,7 @@ public class BoardService {
         return responses;
     }
 
-    public BoardResponse generateBoard(MultipartFile multipartFile, String token, BoardAddRequest request) {
+    public BoardResponse generateBoard(String token, MultipartFile multipartFile,BoardAddRequest request) {
         request.setBoardImage(awsS3Service.uploadImage(multipartFile));
 
         BoardEntity boardEntity = boardRepository.save(BoardConverter.to(request));
