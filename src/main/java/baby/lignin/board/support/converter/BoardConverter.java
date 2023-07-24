@@ -21,11 +21,11 @@ public class BoardConverter {
                 .build();
     }
 
-    public BoardEntity to(BoardAddRequest request) {
+    public BoardEntity to(BoardAddRequest request, String boardImage) {
         return BoardEntity.builder()
                 .workspaceId(request.getWorkspaceId())
                 .boardName(request.getBoardName())
-                .boardImage(request.getBoardImage())
+                .boardImage(boardImage)
                 .deleted(false)
                 .build();
     }

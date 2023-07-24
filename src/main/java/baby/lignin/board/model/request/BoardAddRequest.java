@@ -10,14 +10,12 @@ import lombok.*;
 public class BoardAddRequest {
     private Long workspaceId;
     private String boardName;
-    private String boardImage;
 
     @Override
     public String toString() {
         return "BoardAddRequest{" +
                 "workspaceId=" + workspaceId +
                 ", boardName=" + boardName +
-                ", boardImage=" + boardImage +
                 '}';
     }
 }

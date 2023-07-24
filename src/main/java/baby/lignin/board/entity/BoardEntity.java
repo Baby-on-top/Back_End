@@ -42,9 +42,9 @@ public class BoardEntity {
 
     private boolean deleted;
 
-    public void changeBoardInfo(BoardEditRequest request){
+    public void changeBoardInfo(BoardEditRequest request, String boardImage){
         this.boardName = request.getBoardName();
-        this.boardImage = request.getBoardImage();
+        this.boardImage = boardImage;
         this.updateAt = LocalDateTime.now();
     }
 
