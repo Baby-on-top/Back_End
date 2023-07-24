@@ -86,10 +86,10 @@ public class BoardService {
         return responses;
     }
 
-    public BoardResponse generateBoard(MultipartFile multipartFile, String token, BoardAddRequest request) {
-        request.setBoardImage(awsS3Service.uploadImage(multipartFile));
+    public BoardResponse generateBoard(String token, MultipartFile multipartFile,BoardAddRequest request) {
+        String boardImage = awsS3Service.uploadImage(multipartFile);
 
-        BoardEntity boardEntity = boardRepository.save(BoardConverter.to(request));
+        BoardEntity boardEntity = boardRepository.save(BoardConverter.to(request, boardImage));
 
         Optional<Long> memberIdRe = tokenResolver.resolveToken(token);
         Long memberId = memberIdRe.get();
@@ -99,9 +99,12 @@ public class BoardService {
         return BoardConverter.from(boardEntity);
     }
 
-    public BoardResponse changeBoardInfo(BoardEditRequest request) {
+    public BoardResponse changeBoardInfo(MultipartFile multipartFile, BoardEditRequest request) {
         BoardEntity boardEntity = boardRepository.findById(request.getBoardId()).orElseThrow();
-        boardEntity.changeBoardInfo(request);
+
+        String boardImage = awsS3Service.uploadImage(multipartFile);
+
+        boardEntity.changeBoardInfo(request, boardImage);
         return BoardConverter.from(boardEntity);
     }
 
