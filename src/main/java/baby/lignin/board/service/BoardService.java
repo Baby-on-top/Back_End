@@ -99,8 +99,11 @@ public class BoardService {
         return BoardConverter.from(boardEntity);
     }
 
-    public BoardResponse changeBoardInfo(BoardEditRequest request) {
+    public BoardResponse changeBoardInfo(MultipartFile multipartFile, BoardEditRequest request) {
         BoardEntity boardEntity = boardRepository.findById(request.getBoardId()).orElseThrow();
+
+        request.setBoardImage(awsS3Service.uploadImage(multipartFile));
+
         boardEntity.changeBoardInfo(request);
         return BoardConverter.from(boardEntity);
     }

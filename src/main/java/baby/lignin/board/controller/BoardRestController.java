@@ -38,8 +38,8 @@ public class BoardRestController {
 
     @Operation(summary = "보드 수정하기", description = "유저가 이미지와 보드 정보, 이미지를 넣어서 보드를 수정한다.")
     @PatchMapping
-    public ApiResponse<ApiResponse.SuccessBody<BoardResponse>> edit(@RequestBody BoardEditRequest request) {
-        return ApiResponseGenerator.success(boardService.changeBoardInfo(request), HttpStatus.OK, MessageCode.SUCCESS);
+    public ApiResponse<ApiResponse.SuccessBody<BoardResponse>> edit(@RequestPart(value = "file") MultipartFile multipartFile, @RequestPart(value="info") BoardEditRequest request) {
+        return ApiResponseGenerator.success(boardService.changeBoardInfo(multipartFile, request), HttpStatus.OK, MessageCode.SUCCESS);
     }
 
     @Operation(summary = "보드 삭제하기", description = "보드를 선택해서 삭제하기.")

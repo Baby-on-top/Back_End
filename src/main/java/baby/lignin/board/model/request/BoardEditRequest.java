@@ -9,7 +9,6 @@ import lombok.*;
 @Builder
 public class BoardEditRequest {
     private Long boardId;
-    private Long workspaceId;
     private String boardName;
     private String boardImage;
 }
