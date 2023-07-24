@@ -10,5 +10,4 @@ import lombok.*;
 public class BoardEditRequest {
     private Long boardId;
     private String boardName;
-    private String boardImage;
 }
