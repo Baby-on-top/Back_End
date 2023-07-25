@@ -45,7 +45,7 @@ public class BoardService {
 
     private final AwsS3Service awsS3Service;
 
-    @Cacheable(cacheNames = "boards", key = "{#root.target.makeRedisKey(#token, #request)}")
+//    @Cacheable(cacheNames = "boards", key = "{#root.target.makeRedisKey(#token, #request)}")
     public List<BoardResponse> getBoards(String token, BoardBrowseRequest request){
 
         List<BoardEntity> boardEntities = null;
