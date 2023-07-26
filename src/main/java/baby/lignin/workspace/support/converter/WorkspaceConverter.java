@@ -15,17 +15,17 @@ public class WorkspaceConverter {
     public static WorkSpaceEntitiy to(WorkSpaceResponse workSpaceResponse, String image) {
         return WorkSpaceEntitiy.builder()
                 .id(workSpaceResponse.getWorkspaceId())
-                .name(workSpaceResponse.getName())
+                .workSpaceName(workSpaceResponse.getWorkSpaceImage())
                 .createId(workSpaceResponse.getCreateId())
-                .image(image)
+                .workSpaceImage(image)
                 .build();
     }
 
     public static WorkSpaceEntitiy to(WorkSpaceCreateRequest workSpaceResponse, String image) {
         return WorkSpaceEntitiy.builder()
-                .name(workSpaceResponse.getName())
+                .workSpaceName(workSpaceResponse.getWorkSpaceName())
                 .createId(workSpaceResponse.getCreateId())
-                .image(image)
+                .workSpaceImage(image)
                 .build();
     }
 
@@ -33,8 +33,8 @@ public class WorkspaceConverter {
         return WorkSpaceResponse.builder()
                 .workspaceId(workSpaceEntitiy.getId())
                 .createId(workSpaceEntitiy.getCreateId())
-                .name(workSpaceEntitiy.getName())
-                .image(workSpaceEntitiy.getImage())
+                .workSpaceName(workSpaceEntitiy.getWorkSpaceName())
+                .workSpaceImage(workSpaceEntitiy.getWorkSpaceImage())
                 .build();
     }
 

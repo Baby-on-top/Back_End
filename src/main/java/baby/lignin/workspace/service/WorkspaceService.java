@@ -2,7 +2,6 @@ package baby.lignin.workspace.service;
 
 
 import baby.lignin.auth.model.response.MemberResponse;
-import baby.lignin.workspace.entity.WorkSpaceMemberEntity;
 import baby.lignin.workspace.model.request.WorkSpaceCreateRequest;
 import baby.lignin.workspace.model.request.WorkSpaceDeleteRequest;
 import baby.lignin.workspace.model.request.WorkSpaceUpdateRequest;

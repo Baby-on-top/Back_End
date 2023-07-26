@@ -27,10 +27,10 @@ public class WorkSpaceEntitiy {
     private Long createId;
 
     @Column(nullable = false)
-    private String name;
+    private String workSpaceName;
 
     @Column
-    private String image;
+    private String workSpaceImage;
 
     public void setId(Long id) {
         this.id = id;
@@ -41,8 +41,8 @@ public class WorkSpaceEntitiy {
     }
 
     public void changeWorkSpaceInfo(WorkSpaceUpdateRequest request, String image) {
-        this.name = request.getName();
-        this.image = image;
+        this.workSpaceName = request.getWorkSpaceName();
+        this.workSpaceImage = image;
 
     }
 

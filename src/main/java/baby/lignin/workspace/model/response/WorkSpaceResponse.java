@@ -13,6 +13,6 @@ import lombok.NoArgsConstructor;
 public class WorkSpaceResponse {
     private Long workspaceId;
     private Long createId;
-    private String name;
-    private String image;
+    private String workSpaceName;
+    private String workSpaceImage;
 }

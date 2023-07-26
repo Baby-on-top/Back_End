@@ -13,7 +13,8 @@ import lombok.Setter;
 public class WorkSpaceCreateRequest {
     @JsonIgnore
     private Long createId;
-    private String name;
-    private String image;
+    private String workSpaceName;
+    @JsonIgnore
+    private String workSpaceImage;
 
 }

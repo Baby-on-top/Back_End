@@ -5,17 +5,12 @@ import baby.lignin.support.ApiResponse;
 import baby.lignin.support.ApiResponseGenerator;
 import baby.lignin.support.MessageCode;
 import baby.lignin.workspace.model.request.UrlLongRequest;
-import baby.lignin.workspace.model.request.WorkSpaceCreateRequest;
-import baby.lignin.workspace.model.response.WorkSpaceResponse;
 import baby.lignin.workspace.service.UrlService;
-import baby.lignin.workspace.service.WorkspaceService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.persistence.Cacheable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -32,12 +27,12 @@ public class InviteUrlController {
     @Operation(summary = "WorkSpace shortener 생성", description = "WorkSpace 초대 링크 생성")
     @PostMapping("url")
     public ApiResponse<ApiResponse.SuccessBody<String>> url(@RequestBody UrlLongRequest shortUrl) {
-        return ApiResponseGenerator.success(urlService.convertToShortUrl(shortUrl),HttpStatus.OK, MessageCode.SUCCESS);
+        return ApiResponseGenerator.success(urlService.convertToShortUrl(shortUrl), HttpStatus.OK, MessageCode.SUCCESS);
     }
 
     @Operation(summary = "short Url 접속")
     @GetMapping("{shortUrl}")
-    public ResponseEntity<Void> getAndRedirect(@ PathVariable String shortUrl) {
+    public ResponseEntity<Void> getAndRedirect(@PathVariable String shortUrl) {
         System.out.println("here");
         var url = urlService.getOriginalUrl(shortUrl);
         return ResponseEntity.status(HttpStatus.FOUND)
