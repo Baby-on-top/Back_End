@@ -6,6 +6,7 @@ import baby.lignin.workspace.model.request.WorkSpaceUpdateRequest;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 
@@ -39,9 +40,9 @@ public class WorkSpaceEntitiy {
         return id;
     }
 
-    public void changeWorkSpaceInfo(WorkSpaceUpdateRequest request){
+    public void changeWorkSpaceInfo(WorkSpaceUpdateRequest request, String image) {
         this.name = request.getName();
-        this.image = request.getImage();
+        this.image = image;
 
     }
 

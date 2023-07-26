@@ -12,20 +12,20 @@ import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public class WorkspaceConverter {
-    public static WorkSpaceEntitiy to(WorkSpaceResponse workSpaceResponse) {
+    public static WorkSpaceEntitiy to(WorkSpaceResponse workSpaceResponse, String image) {
         return WorkSpaceEntitiy.builder()
                 .id(workSpaceResponse.getWorkspaceId())
                 .name(workSpaceResponse.getName())
                 .createId(workSpaceResponse.getCreateId())
-                .image(workSpaceResponse.getImage())
+                .image(image)
                 .build();
     }
 
-    public static WorkSpaceEntitiy to(WorkSpaceCreateRequest workSpaceResponse) {
+    public static WorkSpaceEntitiy to(WorkSpaceCreateRequest workSpaceResponse, String image) {
         return WorkSpaceEntitiy.builder()
                 .name(workSpaceResponse.getName())
                 .createId(workSpaceResponse.getCreateId())
-                .image(workSpaceResponse.getImage())
+                .image(image)
                 .build();
     }
 
@@ -38,7 +38,7 @@ public class WorkspaceConverter {
                 .build();
     }
 
-    public static WorkSpaceMemberResponse from(WorkSpaceMemberEntity workSpaceMemberEntity){
+    public static WorkSpaceMemberResponse from(WorkSpaceMemberEntity workSpaceMemberEntity) {
         return WorkSpaceMemberResponse.builder()
                 .workspaceId(workSpaceMemberEntity.getWorkspaceId())
                 .memberId(workSpaceMemberEntity.getMemberId())
