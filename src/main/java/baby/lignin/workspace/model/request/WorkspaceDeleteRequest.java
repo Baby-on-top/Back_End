@@ -10,6 +10,6 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class WorkSpaceRequest {
-    private Long createId;
+public class WorkspaceDeleteRequest {
+    private Long workspaceId;
 }

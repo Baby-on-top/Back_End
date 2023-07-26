@@ -1,12 +1,11 @@
 package baby.lignin.workspace.controller;
 
 import baby.lignin.auth.model.response.MemberResponse;
-import baby.lignin.board.model.request.BoardEditRequest;
-import baby.lignin.workspace.model.request.WorkSpaceCreateRequest;
-import baby.lignin.workspace.model.request.WorkSpaceDeleteRequest;
-import baby.lignin.workspace.model.request.WorkSpaceUpdateRequest;
-import baby.lignin.workspace.model.response.WorkSpaceMemberResponse;
-import baby.lignin.workspace.model.response.WorkSpaceResponse;
+import baby.lignin.workspace.model.request.WorkspaceCreateRequest;
+import baby.lignin.workspace.model.request.WorkspaceDeleteRequest;
+import baby.lignin.workspace.model.request.WorkspaceUpdateRequest;
+import baby.lignin.workspace.model.response.WorkspaceMemberResponse;
+import baby.lignin.workspace.model.response.WorkspaceResponse;
 import baby.lignin.workspace.service.WorkspaceService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -27,20 +26,20 @@ import java.util.List;
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/api/workspace")
-public class WorkSpaceController {
+public class WorkspaceController {
 
     private final WorkspaceService workspaceService;
 
     // 워크 스페이스 목록 조회
     @Operation(summary = "WorkSpace 전체 조회", description = "전체 Workspace를 조회함")
     @GetMapping("/all")
-    public ApiResponse<ApiResponse.SuccessBody<List<WorkSpaceResponse>>> findList() {
+    public ApiResponse<ApiResponse.SuccessBody<List<WorkspaceResponse>>> findList() {
         return ApiResponseGenerator.success(workspaceService.findAllList(), HttpStatus.OK, MessageCode.SUCCESS);
     }
 
     @Operation(summary = "WorkSpace 조회", description = "내가 속한 Workspace를 조회함")
     @GetMapping()
-    public ApiResponse<ApiResponse.SuccessBody<List<WorkSpaceResponse>>> findList(@RequestHeader("Token") String token) throws Exception {
+    public ApiResponse<ApiResponse.SuccessBody<List<WorkspaceResponse>>> findList(@RequestHeader("Token") String token) throws Exception {
         return ApiResponseGenerator.success(workspaceService.findMyList(token), HttpStatus.OK, MessageCode.SUCCESS);
     }
 
@@ -48,7 +47,7 @@ public class WorkSpaceController {
     // 워크 스페이스 생성
     @Operation(summary = "WorkSpace 생성", description = "WorkSpace를 생성함")
     @PostMapping()
-    public ApiResponse<ApiResponse.SuccessBody<WorkSpaceResponse>> create(@RequestHeader("Token") String token, @RequestPart(value = "file") MultipartFile multipartFile, @RequestPart(value = "info") WorkSpaceCreateRequest request) {
+    public ApiResponse<ApiResponse.SuccessBody<WorkspaceResponse>> create(@RequestHeader("Token") String token, @RequestPart(value = "file") MultipartFile multipartFile, @RequestPart(value = "info") WorkspaceCreateRequest request) {
         return ApiResponseGenerator.success(workspaceService.create(token, multipartFile, request), HttpStatus.OK, MessageCode.SUCCESS);
     }
 
@@ -57,19 +56,19 @@ public class WorkSpaceController {
 
     @Operation(summary = "WorkSpace 삭제", description = "만든 WorkSpace를 삭제함")
     @DeleteMapping()
-    public ApiResponse<ApiResponse.SuccessBody<WorkSpaceResponse>> delete(WorkSpaceDeleteRequest request) throws Exception {
+    public ApiResponse<ApiResponse.SuccessBody<WorkspaceResponse>> delete(WorkspaceDeleteRequest request) throws Exception {
         return ApiResponseGenerator.success(workspaceService.delete(request.getWorkspaceId()), HttpStatus.OK, MessageCode.SUCCESS);
     }
 
     @Operation(summary = "WorkSpace 수정", description = "WorkSpace를 수정함")
     @PutMapping()
-    public ApiResponse<ApiResponse.SuccessBody<WorkSpaceResponse>> update(@RequestPart(value = "file") MultipartFile multipartFile, @RequestPart(value = "info") WorkSpaceUpdateRequest request) throws Exception {
+    public ApiResponse<ApiResponse.SuccessBody<WorkspaceResponse>> update(@RequestPart(value = "file") MultipartFile multipartFile, @RequestPart(value = "info") WorkspaceUpdateRequest request) throws Exception {
         return ApiResponseGenerator.success(workspaceService.update(request, multipartFile), HttpStatus.OK, MessageCode.SUCCESS);
     }
 
     @Operation(summary = "WorkSpace 탈퇴", description = "가입한 WorkSpace를 탈퇴함")
     @PostMapping("/unlink")
-    public ApiResponse<ApiResponse.SuccessBody<WorkSpaceMemberResponse>> unlink(@RequestHeader("Token") String token, @RequestBody WorkSpaceDeleteRequest request) {
+    public ApiResponse<ApiResponse.SuccessBody<WorkspaceMemberResponse>> unlink(@RequestHeader("Token") String token, @RequestBody WorkspaceDeleteRequest request) {
         return ApiResponseGenerator.success(workspaceService.unlink(token, request), HttpStatus.OK, MessageCode.SUCCESS);
     }
 
@@ -89,7 +88,7 @@ public class WorkSpaceController {
     @Operation(summary = "WorkSpace 초대", description = "WorkSpace 초대")
     @GetMapping("/invite")
     public ApiResponse<ApiResponse.SuccessBody<Void>> invite(@RequestHeader("Token") String token, Long workspaceId, HttpServletResponse response) {
-        WorkSpaceMemberResponse memberResponse = workspaceService.invite(token, workspaceId);
+        WorkspaceMemberResponse memberResponse = workspaceService.invite(token, workspaceId);
         Cookie cookie = new Cookie("inviteWorkspaceId", null);
         cookie.setMaxAge(0);
         cookie.setPath("/");

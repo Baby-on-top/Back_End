@@ -6,14 +6,13 @@ import baby.lignin.auth.model.response.MemberResponse;
 import baby.lignin.auth.repository.MemberRepository;
 import baby.lignin.auth.util.converter.MemberConverter;
 import baby.lignin.image.service.AwsS3Service;
-import baby.lignin.support.ApiResponse;
-import baby.lignin.workspace.entity.WorkSpaceEntitiy;
-import baby.lignin.workspace.entity.WorkSpaceMemberEntity;
-import baby.lignin.workspace.model.request.WorkSpaceCreateRequest;
-import baby.lignin.workspace.model.request.WorkSpaceDeleteRequest;
-import baby.lignin.workspace.model.request.WorkSpaceUpdateRequest;
-import baby.lignin.workspace.model.response.WorkSpaceMemberResponse;
-import baby.lignin.workspace.model.response.WorkSpaceResponse;
+import baby.lignin.workspace.entity.WorkspaceEntitiy;
+import baby.lignin.workspace.entity.WorkspaceMemberEntity;
+import baby.lignin.workspace.model.request.WorkspaceCreateRequest;
+import baby.lignin.workspace.model.request.WorkspaceDeleteRequest;
+import baby.lignin.workspace.model.request.WorkspaceUpdateRequest;
+import baby.lignin.workspace.model.response.WorkspaceMemberResponse;
+import baby.lignin.workspace.model.response.WorkspaceResponse;
 import baby.lignin.workspace.repository.WorkspaceMemberRepository;
 import baby.lignin.workspace.repository.WorkspaceRepository;
 import baby.lignin.workspace.support.converter.WorkspaceConverter;
@@ -22,7 +21,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -40,24 +38,24 @@ public class WorkspaceServiceImpl implements WorkspaceService {
     private final AwsS3Service awsS3Service;
 
     @Override
-    public List<WorkSpaceResponse> findAllList() {
-        List<WorkSpaceEntitiy> list = workspaceRepository.findAll();
+    public List<WorkspaceResponse> findAllList() {
+        List<WorkspaceEntitiy> list = workspaceRepository.findAll();
 
-        List<WorkSpaceResponse> responses = new ArrayList<>();
-        for (WorkSpaceEntitiy entity : list) {
+        List<WorkspaceResponse> responses = new ArrayList<>();
+        for (WorkspaceEntitiy entity : list) {
             responses.add(WorkspaceConverter.from(entity));
         }
         return responses;
     }
 
     @Override
-    public List<WorkSpaceResponse> findMyList(String access_Token) throws Exception {
+    public List<WorkspaceResponse> findMyList(String access_Token) throws Exception {
         Optional<Long> memberIdRe = tokenResolver.resolveToken(access_Token);
         Long memberId = memberIdRe.get();
-        List<WorkSpaceMemberEntity> list = workspaceMemberRepository.findByMemberId(memberId).stream().collect(Collectors.toList());
-        List<WorkSpaceResponse> response = new ArrayList<>();
-        for (WorkSpaceMemberEntity entity : list) {
-            WorkSpaceResponse respone = WorkspaceConverter.from(workspaceRepository.findById(entity.getWorkspaceId()).orElseThrow(() -> new Exception("에러입니다.")));
+        List<WorkspaceMemberEntity> list = workspaceMemberRepository.findByMemberId(memberId).stream().collect(Collectors.toList());
+        List<WorkspaceResponse> response = new ArrayList<>();
+        for (WorkspaceMemberEntity entity : list) {
+            WorkspaceResponse respone = WorkspaceConverter.from(workspaceRepository.findById(entity.getWorkspaceId()).orElseThrow(() -> new Exception("에러입니다.")));
             response.add(respone);
         }
 
@@ -65,42 +63,42 @@ public class WorkspaceServiceImpl implements WorkspaceService {
     }
 
     @Override
-    public WorkSpaceResponse create(String token, MultipartFile multipartFile, WorkSpaceCreateRequest request) {
+    public WorkspaceResponse create(String token, MultipartFile multipartFile, WorkspaceCreateRequest request) {
         String spaceImage = awsS3Service.uploadImage(multipartFile);
         Optional<Long> memberIdRe = tokenResolver.resolveToken(token);
         Long memberId = memberIdRe.get();
         request.setCreateId(memberId);
-        WorkSpaceEntitiy workSpaceEntitiy = workspaceRepository.save(WorkspaceConverter.to(request, spaceImage));
-        workspaceMemberRepository.save(WorkspaceCreateConverter.to(workSpaceEntitiy));
-        return WorkspaceConverter.from(workSpaceEntitiy);
+        WorkspaceEntitiy workspaceEntitiy = workspaceRepository.save(WorkspaceConverter.to(request, spaceImage));
+        workspaceMemberRepository.save(WorkspaceCreateConverter.to(workspaceEntitiy));
+        return WorkspaceConverter.from(workspaceEntitiy);
     }
 
     @Override
-    public WorkSpaceResponse delete(Long workspaceId) throws Exception {
-        WorkSpaceEntitiy workSpaceEntitiy = workspaceRepository.findById(workspaceId).orElseThrow(() -> new Exception("찾는 워크 스페이스가 없습니다.!"));
-        workspaceRepository.delete(workSpaceEntitiy);
-        return WorkspaceConverter.from(workSpaceEntitiy);
+    public WorkspaceResponse delete(Long workspaceId) throws Exception {
+        WorkspaceEntitiy workspaceEntitiy = workspaceRepository.findById(workspaceId).orElseThrow(() -> new Exception("찾는 워크 스페이스가 없습니다.!"));
+        workspaceRepository.delete(workspaceEntitiy);
+        return WorkspaceConverter.from(workspaceEntitiy);
     }
 
     @Override
-    public WorkSpaceResponse update(WorkSpaceUpdateRequest request, MultipartFile multipartFile) throws Exception {
+    public WorkspaceResponse update(WorkspaceUpdateRequest request, MultipartFile multipartFile) throws Exception {
         String spaceImage = awsS3Service.uploadImage(multipartFile);
-        WorkSpaceEntitiy workSpaceEntitiy = workspaceRepository.findById(request.getWorkspaceId()).orElseThrow(() -> new Exception("찾는 워크 스페이스가 없습니다.!"));
-        workSpaceEntitiy.changeWorkSpaceInfo(request, spaceImage);
+        WorkspaceEntitiy workspaceEntitiy = workspaceRepository.findById(request.getWorkspaceId()).orElseThrow(() -> new Exception("찾는 워크 스페이스가 없습니다.!"));
+        workspaceEntitiy.changeWorkSpaceInfo(request, spaceImage);
 
-        workspaceRepository.save(workSpaceEntitiy);
-        return WorkspaceConverter.from(workSpaceEntitiy);
+        workspaceRepository.save(workspaceEntitiy);
+        return WorkspaceConverter.from(workspaceEntitiy);
     }
 
     @Override
-    public WorkSpaceMemberResponse invite(String token, Long workspaceId) {
+    public WorkspaceMemberResponse invite(String token, Long workspaceId) {
         Optional<Long> memberIdRe = tokenResolver.resolveToken(token);
         Long memberId = memberIdRe.get();
-        WorkSpaceMemberEntity exist = workspaceMemberRepository.findByMemberIdAndWorkspaceId(memberId, workspaceId);
+        WorkspaceMemberEntity exist = workspaceMemberRepository.findByMemberIdAndWorkspaceId(memberId, workspaceId);
         if (exist != null) {
             return null;
         }
-        WorkSpaceMemberEntity response = workspaceMemberRepository.save(WorkSpaceMemberEntity.builder()
+        WorkspaceMemberEntity response = workspaceMemberRepository.save(WorkspaceMemberEntity.builder()
                 .workspaceId(workspaceId)
                 .memberId(memberId)
                 .build());
@@ -108,20 +106,20 @@ public class WorkspaceServiceImpl implements WorkspaceService {
     }
 
     @Override
-    public WorkSpaceMemberResponse unlink(String token, WorkSpaceDeleteRequest request) {
+    public WorkspaceMemberResponse unlink(String token, WorkspaceDeleteRequest request) {
         Optional<Long> memberIdRe = tokenResolver.resolveToken(token);
         Long memberId = memberIdRe.get();
-        WorkSpaceMemberEntity workSpaceMemberEntity = workspaceMemberRepository.findByMemberIdAndWorkspaceId(memberId, request.getWorkspaceId());
-        workspaceMemberRepository.delete(workSpaceMemberEntity);
-        return WorkspaceConverter.from(workSpaceMemberEntity);
+        WorkspaceMemberEntity workspaceMemberEntity = workspaceMemberRepository.findByMemberIdAndWorkspaceId(memberId, request.getWorkspaceId());
+        workspaceMemberRepository.delete(workspaceMemberEntity);
+        return WorkspaceConverter.from(workspaceMemberEntity);
     }
 
     @Override
     public List<MemberResponse> memberList(Long workspaceId) throws Exception {
-        List<WorkSpaceMemberEntity> memberList = workspaceMemberRepository.findByWorkspaceId(workspaceId).stream().collect(Collectors.toList());
+        List<WorkspaceMemberEntity> memberList = workspaceMemberRepository.findByWorkspaceId(workspaceId).stream().collect(Collectors.toList());
 
         List<MemberResponse> list = new ArrayList<>();
-        for (WorkSpaceMemberEntity member : memberList) {
+        for (WorkspaceMemberEntity member : memberList) {
             MemberResponse res = MemberConverter.from(memberRepository.findById(member.getMemberId()).orElseThrow(() -> new Exception("new")));
             list.add(res);
         }

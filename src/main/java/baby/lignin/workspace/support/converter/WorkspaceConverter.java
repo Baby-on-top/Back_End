@@ -1,48 +1,45 @@
 package baby.lignin.workspace.support.converter;
 
-import baby.lignin.auth.entity.MemberEntity;
-import baby.lignin.auth.model.response.MemberResponse;
-import baby.lignin.workspace.entity.WorkSpaceEntitiy;
-import baby.lignin.workspace.entity.WorkSpaceMemberEntity;
-import baby.lignin.workspace.model.request.WorkSpaceCreateRequest;
-import baby.lignin.workspace.model.request.WorkSpaceRequest;
-import baby.lignin.workspace.model.response.WorkSpaceMemberResponse;
-import baby.lignin.workspace.model.response.WorkSpaceResponse;
+import baby.lignin.workspace.entity.WorkspaceEntitiy;
+import baby.lignin.workspace.entity.WorkspaceMemberEntity;
+import baby.lignin.workspace.model.request.WorkspaceCreateRequest;
+import baby.lignin.workspace.model.response.WorkspaceMemberResponse;
+import baby.lignin.workspace.model.response.WorkspaceResponse;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public class WorkspaceConverter {
-    public static WorkSpaceEntitiy to(WorkSpaceResponse workSpaceResponse, String image) {
-        return WorkSpaceEntitiy.builder()
-                .id(workSpaceResponse.getWorkspaceId())
-                .workSpaceName(workSpaceResponse.getWorkSpaceImage())
-                .createId(workSpaceResponse.getCreateId())
-                .workSpaceImage(image)
+    public static WorkspaceEntitiy to(WorkspaceResponse workspaceResponse, String image) {
+        return WorkspaceEntitiy.builder()
+                .id(workspaceResponse.getWorkspaceId())
+                .workspaceName(workspaceResponse.getWorkspaceImage())
+                .createId(workspaceResponse.getCreateId())
+                .workspaceImage(image)
                 .build();
     }
 
-    public static WorkSpaceEntitiy to(WorkSpaceCreateRequest workSpaceResponse, String image) {
-        return WorkSpaceEntitiy.builder()
-                .workSpaceName(workSpaceResponse.getWorkSpaceName())
-                .createId(workSpaceResponse.getCreateId())
-                .workSpaceImage(image)
+    public static WorkspaceEntitiy to(WorkspaceCreateRequest workspaceResponse, String image) {
+        return WorkspaceEntitiy.builder()
+                .workspaceName(workspaceResponse.getWorkspaceName())
+                .createId(workspaceResponse.getCreateId())
+                .workspaceImage(image)
                 .build();
     }
 
-    public static WorkSpaceResponse from(WorkSpaceEntitiy workSpaceEntitiy) {
-        return WorkSpaceResponse.builder()
-                .workspaceId(workSpaceEntitiy.getId())
-                .createId(workSpaceEntitiy.getCreateId())
-                .workSpaceName(workSpaceEntitiy.getWorkSpaceName())
-                .workSpaceImage(workSpaceEntitiy.getWorkSpaceImage())
+    public static WorkspaceResponse from(WorkspaceEntitiy workspaceEntitiy) {
+        return WorkspaceResponse.builder()
+                .workspaceId(workspaceEntitiy.getId())
+                .createId(workspaceEntitiy.getCreateId())
+                .workspaceName(workspaceEntitiy.getWorkspaceName())
+                .workspaceImage(workspaceEntitiy.getWorkspaceImage())
                 .build();
     }
 
-    public static WorkSpaceMemberResponse from(WorkSpaceMemberEntity workSpaceMemberEntity) {
-        return WorkSpaceMemberResponse.builder()
-                .workspaceId(workSpaceMemberEntity.getWorkspaceId())
-                .memberId(workSpaceMemberEntity.getMemberId())
-                .workspaceMemberId(workSpaceMemberEntity.getWorkspaceId())
+    public static WorkspaceMemberResponse from(WorkspaceMemberEntity workspaceMemberEntity) {
+        return WorkspaceMemberResponse.builder()
+                .workspaceId(workspaceMemberEntity.getWorkspaceId())
+                .memberId(workspaceMemberEntity.getMemberId())
+                .workspaceMemberId(workspaceMemberEntity.getWorkspaceId())
                 .build();
     }
 

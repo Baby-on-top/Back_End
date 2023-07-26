@@ -1,13 +1,12 @@
 package baby.lignin.workspace.repository;
 
-import baby.lignin.board.entity.BoardEntity;
-import baby.lignin.workspace.entity.WorkSpaceEntitiy;
+import baby.lignin.workspace.entity.WorkspaceEntitiy;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface WorkspaceRepository extends JpaRepository<WorkSpaceEntitiy,Long> {
+public interface WorkspaceRepository extends JpaRepository<WorkspaceEntitiy, Long> {
 
-    List<WorkSpaceEntitiy> findByCreateId(Long createId);
+    List<WorkspaceEntitiy> findByCreateId(Long createId);
     //WorkSpaceEntitiy findById(Long workspaceId);
 }

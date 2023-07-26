@@ -1,14 +1,10 @@
 package baby.lignin.workspace.entity;
 
 
-import baby.lignin.board.model.request.BoardEditRequest;
-import baby.lignin.workspace.model.request.WorkSpaceUpdateRequest;
+import baby.lignin.workspace.model.request.WorkspaceUpdateRequest;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -17,7 +13,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "workspace")
-public class WorkSpaceEntitiy {
+public class WorkspaceEntitiy {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "workspace_id")
@@ -27,10 +23,10 @@ public class WorkSpaceEntitiy {
     private Long createId;
 
     @Column(nullable = false)
-    private String workSpaceName;
+    private String workspaceName;
 
     @Column
-    private String workSpaceImage;
+    private String workspaceImage;
 
     public void setId(Long id) {
         this.id = id;
@@ -40,9 +36,9 @@ public class WorkSpaceEntitiy {
         return id;
     }
 
-    public void changeWorkSpaceInfo(WorkSpaceUpdateRequest request, String image) {
-        this.workSpaceName = request.getWorkSpaceName();
-        this.workSpaceImage = image;
+    public void changeWorkSpaceInfo(WorkspaceUpdateRequest request, String image) {
+        this.workspaceName = request.getWorkspaceName();
+        this.workspaceImage = image;
 
     }
 

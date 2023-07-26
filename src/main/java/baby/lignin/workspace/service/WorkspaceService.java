@@ -2,30 +2,30 @@ package baby.lignin.workspace.service;
 
 
 import baby.lignin.auth.model.response.MemberResponse;
-import baby.lignin.workspace.model.request.WorkSpaceCreateRequest;
-import baby.lignin.workspace.model.request.WorkSpaceDeleteRequest;
-import baby.lignin.workspace.model.request.WorkSpaceUpdateRequest;
-import baby.lignin.workspace.model.response.WorkSpaceMemberResponse;
-import baby.lignin.workspace.model.response.WorkSpaceResponse;
+import baby.lignin.workspace.model.request.WorkspaceCreateRequest;
+import baby.lignin.workspace.model.request.WorkspaceDeleteRequest;
+import baby.lignin.workspace.model.request.WorkspaceUpdateRequest;
+import baby.lignin.workspace.model.response.WorkspaceMemberResponse;
+import baby.lignin.workspace.model.response.WorkspaceResponse;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 public interface WorkspaceService {
 
-    public List<WorkSpaceResponse> findAllList();
+    public List<WorkspaceResponse> findAllList();
 
-    public List<WorkSpaceResponse> findMyList(String access_Token) throws Exception;
+    public List<WorkspaceResponse> findMyList(String access_Token) throws Exception;
 
-    public WorkSpaceResponse create(String token, MultipartFile multipartFile, WorkSpaceCreateRequest request);
+    public WorkspaceResponse create(String token, MultipartFile multipartFile, WorkspaceCreateRequest request);
 
-    public WorkSpaceResponse delete(Long workspaceId) throws Exception;
+    public WorkspaceResponse delete(Long workspaceId) throws Exception;
 
-    public WorkSpaceResponse update(WorkSpaceUpdateRequest request, MultipartFile multipartFile) throws Exception;
+    public WorkspaceResponse update(WorkspaceUpdateRequest request, MultipartFile multipartFile) throws Exception;
 
-    public WorkSpaceMemberResponse invite(String token, Long roomId);
+    public WorkspaceMemberResponse invite(String token, Long roomId);
 
-    public WorkSpaceMemberResponse unlink(String token, WorkSpaceDeleteRequest request);
+    public WorkspaceMemberResponse unlink(String token, WorkspaceDeleteRequest request);
 
 
     public List<MemberResponse> memberList(Long workspaceId) throws Exception;
