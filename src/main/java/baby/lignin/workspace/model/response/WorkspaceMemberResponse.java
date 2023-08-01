@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class WorkSpaceMemberResponse {
+public class WorkspaceMemberResponse {
     private Long workspaceMemberId;
     private Long workspaceId;
     private Long memberId;

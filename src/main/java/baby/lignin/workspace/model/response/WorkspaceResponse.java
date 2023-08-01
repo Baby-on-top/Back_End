@@ -10,9 +10,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class WorkSpaceResponse {
+public class WorkspaceResponse {
     private Long workspaceId;
     private Long createId;
-    private String name;
-    private String image;
+    private String workspaceName;
+    private String workspaceImage;
 }

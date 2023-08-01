@@ -1,24 +1,23 @@
 package baby.lignin.workspace.support.converter;
 
-import baby.lignin.workspace.entity.WorkSpaceEntitiy;
-import baby.lignin.workspace.entity.WorkSpaceMemberEntity;
-import baby.lignin.workspace.model.response.WorkSpaceMemberResponse;
-import baby.lignin.workspace.model.response.WorkSpaceResponse;
+import baby.lignin.workspace.entity.WorkspaceEntitiy;
+import baby.lignin.workspace.entity.WorkspaceMemberEntity;
+import baby.lignin.workspace.model.response.WorkspaceMemberResponse;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public class WorkspaceCreateConverter {
-    public static WorkSpaceMemberEntity to(WorkSpaceEntitiy workSpaceResponse) {
-        return WorkSpaceMemberEntity.builder()
-                .workspaceId(workSpaceResponse.getId())
-                .memberId(workSpaceResponse.getCreateId())
+    public static WorkspaceMemberEntity to(WorkspaceEntitiy workspaceResponse) {
+        return WorkspaceMemberEntity.builder()
+                .workspaceId(workspaceResponse.getId())
+                .memberId(workspaceResponse.getCreateId())
                 .build();
     }
 
-    public static WorkSpaceMemberResponse from(WorkSpaceMemberEntity workSpaceMemberEntity){
-        return WorkSpaceMemberResponse.builder()
-                .workspaceId(workSpaceMemberEntity.getWorkspaceId())
-                .memberId(workSpaceMemberEntity.getMemberId())
+    public static WorkspaceMemberResponse from(WorkspaceMemberEntity workspaceMemberEntity) {
+        return WorkspaceMemberResponse.builder()
+                .workspaceId(workspaceMemberEntity.getWorkspaceId())
+                .memberId(workspaceMemberEntity.getMemberId())
                 .build();
     }
 }
