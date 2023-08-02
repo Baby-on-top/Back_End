@@ -32,7 +32,7 @@ public class BoardRestController {
 
     @Operation(summary = "보드 만들기", description = "유저가 이미지와 보드 정보, 이미지를 넣어서 보드를 만든다.")
     @PostMapping
-    public ApiResponse<ApiResponse.SuccessBody<BoardResponse>> add(@RequestHeader("Token") String token, @RequestPart(value = "file") MultipartFile multipartFile, @RequestPart(value="info") BoardAddRequest request) {
+    public ApiResponse<ApiResponse.SuccessBody<BoardResponse>> add(@RequestHeader("Token") String token, @RequestPart(value = "file") MultipartFile multipartFile, @RequestPart(value="info") BoardAddRequest request) throws Exception {
         return ApiResponseGenerator.success(boardService.generateBoard(token, multipartFile, request), HttpStatus.CREATED, MessageCode.RESOURCE_CREATED);
     }
 

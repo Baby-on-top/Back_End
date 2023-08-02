@@ -18,14 +18,16 @@ public class BoardConverter {
                 .boardImage(boardEntity.getBoardImage())
                 .createAt(boardEntity.getCreateAt())
                 .updateAt(boardEntity.getUpdateAt())
+                .workspaceName(boardEntity.getWorkspaceName())
                 .build();
     }
 
-    public BoardEntity to(BoardAddRequest request, String boardImage) {
+    public BoardEntity to(BoardAddRequest request, String boardImage, String workspaceName) {
         return BoardEntity.builder()
                 .workspaceId(request.getWorkspaceId())
                 .boardName(request.getBoardName())
                 .boardImage(boardImage)
+                .workspaceName(workspaceName)
                 .deleted(false)
                 .build();
     }

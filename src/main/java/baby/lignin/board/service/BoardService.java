@@ -11,6 +11,8 @@ import baby.lignin.board.repository.BoardMemberRepository;
 import baby.lignin.board.repository.BoardRepository;
 import baby.lignin.board.support.converter.BoardConverter;
 import baby.lignin.image.service.AwsS3Service;
+import baby.lignin.workspace.entity.WorkspaceEntitiy;
+import baby.lignin.workspace.repository.WorkspaceRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
@@ -44,6 +46,8 @@ public class BoardService {
     private final BoardMemberRepository boardMemberRepository;
 
     private final AwsS3Service awsS3Service;
+
+    private final WorkspaceRepository workspaceRepository;
 
 //    @Cacheable(cacheNames = "boards", key = "{#root.target.makeRedisKey(#token, #request)}")
     public List<BoardResponse> getBoards(String token, BoardBrowseRequest request){
@@ -86,10 +90,11 @@ public class BoardService {
         return responses;
     }
 
-    public BoardResponse generateBoard(String token, MultipartFile multipartFile,BoardAddRequest request) {
+    public BoardResponse generateBoard(String token, MultipartFile multipartFile,BoardAddRequest request) throws Exception {
         String boardImage = awsS3Service.uploadImage(multipartFile);
 
-        BoardEntity boardEntity = boardRepository.save(BoardConverter.to(request, boardImage));
+        WorkspaceEntitiy workspaceName = workspaceRepository.findById(request.getWorkspaceId()).orElseThrow(() -> new Exception());
+        BoardEntity boardEntity = boardRepository.save(BoardConverter.to(request, boardImage, workspaceName.getWorkspaceName()));
 
         Optional<Long> memberIdRe = tokenResolver.resolveToken(token);
         Long memberId = memberIdRe.get();
