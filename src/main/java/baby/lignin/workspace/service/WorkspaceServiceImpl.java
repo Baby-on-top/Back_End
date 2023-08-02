@@ -55,9 +55,10 @@ public class WorkspaceServiceImpl implements WorkspaceService {
         List<WorkspaceMemberEntity> list = workspaceMemberRepository.findByMemberId(memberId).stream().collect(Collectors.toList());
         List<WorkspaceResponse> response = new ArrayList<>();
         for (WorkspaceMemberEntity entity : list) {
-            WorkspaceResponse respone = WorkspaceConverter.from(workspaceRepository.findById(entity.getWorkspaceId()).orElseThrow(() -> new Exception("에러입니다.")));
+            WorkspaceResponse respone = WorkspaceConverter.from(workspaceRepository.findById(entity.getWorkspaceId()).orElseThrow(() -> new Exception("해당하는 워크스페이스가 없습니다.")));
             response.add(respone);
         }
+
 
         return response;
     }
@@ -76,7 +77,10 @@ public class WorkspaceServiceImpl implements WorkspaceService {
     @Override
     public WorkspaceResponse delete(Long workspaceId) throws Exception {
         WorkspaceEntitiy workspaceEntitiy = workspaceRepository.findById(workspaceId).orElseThrow(() -> new Exception("찾는 워크 스페이스가 없습니다.!"));
+        List<WorkspaceMemberEntity> workspaceMemberEntity = workspaceMemberRepository.findByWorkspaceId(workspaceId).stream().collect(Collectors.toList());
+        workspaceMemberRepository.deleteAll(workspaceMemberEntity);
         workspaceRepository.delete(workspaceEntitiy);
+
         return WorkspaceConverter.from(workspaceEntitiy);
     }
 
