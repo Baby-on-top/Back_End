@@ -32,6 +32,9 @@ public class BoardEntity {
     @Column(nullable = false)
     private String boardImage;
 
+    @Column(nullable = false)
+    private String workspaceName;
+
     @CreationTimestamp
     @Column(name = "create_at")
     private LocalDateTime createAt;

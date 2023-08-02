@@ -15,6 +15,7 @@ public class BoardResponse {
     private Long boardId;
     private String boardName;
     private String boardImage;
+    private String workspaceName;
     private LocalDateTime createAt;
     private LocalDateTime updateAt;
 }
