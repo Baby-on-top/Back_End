@@ -2,10 +2,7 @@ package baby.lignin.board.service;
 
 import baby.lignin.board.entity.BoardEntity;
 import baby.lignin.board.entity.BoardMemberEntity;
-import baby.lignin.board.model.request.BoardAddRequest;
-import baby.lignin.board.model.request.BoardBrowseRequest;
-import baby.lignin.board.model.request.BoardDeleteRequest;
-import baby.lignin.board.model.request.BoardEditRequest;
+import baby.lignin.board.model.request.*;
 import baby.lignin.board.model.response.BoardResponse;
 import baby.lignin.board.repository.BoardMemberRepository;
 import baby.lignin.board.repository.BoardRepository;
@@ -115,5 +112,10 @@ public class BoardService {
 
     public void deleteBoard(BoardDeleteRequest request) {
         boardRepository.deleteById(request.getBoardId());
+    }
+
+    public BoardResponse getNames(BoardIdRequest request) {
+        BoardEntity boardEntity = boardRepository.findById(request.getBoardId()).orElseThrow();
+        return BoardConverter.from(boardEntity);
     }
 }
