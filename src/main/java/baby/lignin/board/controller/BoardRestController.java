@@ -47,7 +47,7 @@ public class BoardRestController {
     }
 
     @Operation(summary = "보드, 워크스페이스 이름 가져오기", description = "보드 ID를 통해서 보드 이름 가져오기.")
-    @GetMapping("name")
+    @GetMapping("detail")
     public ApiResponse<ApiResponse.SuccessBody<BoardResponse>> view_name(@RequestHeader("Token") String token, BoardIdRequest request) {
         return ApiResponseGenerator.success(boardService.getNames(request), HttpStatus.OK, MessageCode.SUCCESS);
     }
