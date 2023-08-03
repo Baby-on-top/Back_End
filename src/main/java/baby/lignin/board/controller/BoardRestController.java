@@ -1,9 +1,6 @@
 package baby.lignin.board.controller;
 
-import baby.lignin.board.model.request.BoardAddRequest;
-import baby.lignin.board.model.request.BoardBrowseRequest;
-import baby.lignin.board.model.request.BoardDeleteRequest;
-import baby.lignin.board.model.request.BoardEditRequest;
+import baby.lignin.board.model.request.*;
 import baby.lignin.board.model.response.BoardResponse;
 import baby.lignin.board.service.BoardService;
 import baby.lignin.board.support.ApiResponse;
@@ -47,5 +44,11 @@ public class BoardRestController {
     public ApiResponse<ApiResponse.SuccessBody<Void>> delete(@RequestBody BoardDeleteRequest request) {
         boardService.deleteBoard(request);
         return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.RESOURCE_DELETED);
+    }
+
+    @Operation(summary = "보드, 워크스페이스 이름 가져오기", description = "보드 ID를 통해서 보드 이름 가져오기.")
+    @GetMapping("detail")
+    public ApiResponse<ApiResponse.SuccessBody<BoardResponse>> view_name(@RequestHeader("Token") String token, BoardIdRequest request) {
+        return ApiResponseGenerator.success(boardService.getNames(request), HttpStatus.OK, MessageCode.SUCCESS);
     }
 }
