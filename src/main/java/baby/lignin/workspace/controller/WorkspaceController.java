@@ -99,10 +99,18 @@ public class WorkspaceController {
     @GetMapping("/invite")
     public ApiResponse<ApiResponse.SuccessBody<Void>> invite(@RequestHeader("Token") String token, Long workspaceId, HttpServletResponse response) {
         WorkspaceMemberResponse memberResponse = workspaceService.invite(token, workspaceId);
-        Cookie cookie = new Cookie("inviteWorkspaceId", null);
-        cookie.setMaxAge(0);
-        cookie.setPath("/");
-        response.addCookie(cookie);
+//        Cookie cookie = new Cookie("inviteWorkspaceId", null);
+//        cookie.setMaxAge(0);
+//        cookie.setPath("/");
+//        response.addCookie(cookie);
+        ResponseCookie cookie = ResponseCookie.from("inviteWorkspaceId", "")
+                .path("/")
+                .sameSite("None")
+                .httpOnly(false)
+                .secure(true)
+                .maxAge(0)
+                .build();
+        response.addHeader("Set-Cookie", cookie.toString());
         return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.SUCCESS);
     }
 
