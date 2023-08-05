@@ -35,9 +35,12 @@ public class InviteUrlController {
     public ResponseEntity<Void> getAndRedirect(@PathVariable String shortUrl) {
         System.out.println("here");
         var url = urlService.getOriginalUrl(shortUrl);
-        return ResponseEntity.status(HttpStatus.FOUND)
+        ResponseEntity<Void> entity = ResponseEntity.status(HttpStatus.FOUND)
                 .location(URI.create(url))
                 .build();
+        System.out.println(entity.getBody());
+        System.out.println(entity);
+        return entity;
     }
 
 

@@ -13,6 +13,7 @@ import baby.lignin.support.ApiResponse;
 import baby.lignin.support.ApiResponseGenerator;
 import baby.lignin.support.MessageCode;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,7 +21,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
+import java.util.*;
 
 @Tag(name = "Workspace", description = "WorkSpace API")
 @RequiredArgsConstructor
@@ -75,8 +76,14 @@ public class WorkspaceController {
 
     @Operation(summary = "WorkSpace 초대링크", description = "WorkSpace 초대링크")
     @GetMapping("/invite/{workspaceId}")
-    public String inviteLink(@PathVariable Long workspaceId, HttpServletResponse response) {
+    public String inviteLink(@PathVariable Long workspaceId, HttpServletResponse response, HttpServletRequest request) {
+        String str = request.getRequestURL().toString();
+
+        System.out.println("🔥🔥🔥🔥🔥" + str);
+        System.out.println(str.split("/api")[0]);
         Cookie cookie = new Cookie("inviteWorkspaceId", Long.toString(workspaceId));
+
+
         cookie.setDomain("localhost");
         cookie.setPath("/");
         cookie.setMaxAge(5 * 60);
