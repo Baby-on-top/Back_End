@@ -96,6 +96,8 @@ public class WorkspaceController {
     @GetMapping("/invite")
     public ApiResponse<ApiResponse.SuccessBody<Void>> invite(@RequestHeader("Token") String token, Long workspaceId, HttpServletResponse response) {
         WorkspaceMemberResponse memberResponse = workspaceService.invite(token, workspaceId);
+        System.out.println("token = " + token);
+        System.out.println("🕹️workspaceId = " + workspaceId);
         Cookie cookie = new Cookie("inviteWorkspaceId", null);
         cookie.setMaxAge(0);
         cookie.setPath("/");
