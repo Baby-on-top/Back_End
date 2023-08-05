@@ -84,7 +84,8 @@ public class WorkspaceController {
         Cookie cookie = new Cookie("inviteWorkspaceId", Long.toString(workspaceId));
 
 
-        cookie.setDomain("localhost");
+        //cookie.setDomain("localhost");
+        cookie.setDomain(".amazonaws.com");
         cookie.setPath("/");
         cookie.setMaxAge(5 * 60);
         cookie.setSecure(true);
