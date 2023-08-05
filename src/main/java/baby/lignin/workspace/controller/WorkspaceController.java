@@ -16,6 +16,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -76,12 +77,21 @@ public class WorkspaceController {
     @Operation(summary = "WorkSpace 초대링크", description = "WorkSpace 초대링크")
     @GetMapping("/invite/{workspaceId}")
     public String inviteLink(@PathVariable Long workspaceId, HttpServletResponse response) {
-        Cookie cookie = new Cookie("inviteWorkspaceId", Long.toString(workspaceId));
-        cookie.setDomain("localhost");
-        cookie.setPath("/");
-        cookie.setMaxAge(5 * 60);
-        cookie.setSecure(true);
-        response.addCookie(cookie);
+//        Cookie cookie = new Cookie("inviteWorkspaceId", Long.toString(workspaceId));
+//
+//        cookie.setDomain("localhost");
+//        cookie.setPath("/");
+//        cookie.setMaxAge(5 * 60);
+//        cookie.setSecure(true);
+//        response.addCookie(cookie);
+        ResponseCookie cookie = ResponseCookie.from("inviteWorkspaceId", Long.toString(workspaceId))
+                .path("/")
+                .sameSite("None")
+                .httpOnly(false)
+                .secure(true)
+                .maxAge(5 * 60)
+                .build();
+        response.addHeader("Set-Cookie", cookie.toString());
         return "redirect:http://localhost:3000/invite-check";
     }
 
