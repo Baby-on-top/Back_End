@@ -85,11 +85,12 @@ public class WorkspaceController {
 
 
         //cookie.setDomain("localhost");
-        cookie.setDomain(".amazonaws.com");
+        cookie.setDomain("amazonaws.com");
         cookie.setPath("/");
         cookie.setMaxAge(5 * 60);
         cookie.setSecure(true);
         response.addCookie(cookie);
+        System.out.println("cookie = " + cookie);
         return "redirect:http://localhost:3000/invite-check";
     }
 
