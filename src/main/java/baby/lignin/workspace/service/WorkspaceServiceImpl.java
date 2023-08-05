@@ -96,9 +96,13 @@ public class WorkspaceServiceImpl implements WorkspaceService {
 
     @Override
     public WorkspaceMemberResponse invite(String token, Long workspaceId) {
+        System.out.println("🚨token = " + token);
+        System.out.println("🚨workspaceId = " + workspaceId);
         Optional<Long> memberIdRe = tokenResolver.resolveToken(token);
         Long memberId = memberIdRe.get();
+
         WorkspaceMemberEntity exist = workspaceMemberRepository.findByMemberIdAndWorkspaceId(memberId, workspaceId);
+        System.out.println("🚨exist = " + exist);
         if (exist != null) {
             return null;
         }
@@ -106,6 +110,7 @@ public class WorkspaceServiceImpl implements WorkspaceService {
                 .workspaceId(workspaceId)
                 .memberId(memberId)
                 .build());
+        System.out.println("🚨response = " + response);
         return WorkspaceConverter.from(response);
     }
 
