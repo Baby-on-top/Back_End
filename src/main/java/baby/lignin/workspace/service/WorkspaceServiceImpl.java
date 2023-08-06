@@ -93,7 +93,7 @@ public class WorkspaceServiceImpl implements WorkspaceService {
         workspaceEntitiy.changeWorkSpaceInfo(request, spaceImage);
         List<BoardEntity> boardEntities = boardRepository.findByWorkspaceId(request.getWorkspaceId());
 
-        for (BoardEntity boardEntity : boardEntities){
+        for (BoardEntity boardEntity : boardEntities) {
             boardEntity.changeBoardWorkspaceName(request.getWorkspaceName());
         }
 
