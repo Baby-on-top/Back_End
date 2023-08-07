@@ -4,10 +4,7 @@ import baby.lignin.auth.model.response.MemberResponse;
 import baby.lignin.support.ApiResponse;
 import baby.lignin.support.ApiResponseGenerator;
 import baby.lignin.support.MessageCode;
-import baby.lignin.widget.model.request.WidgetAddRequest;
-import baby.lignin.widget.model.request.WidgetImageRequest;
-import baby.lignin.widget.model.request.WidgetTitleRequest;
-import baby.lignin.widget.model.request.WidgetXYRequest;
+import baby.lignin.widget.model.request.*;
 import baby.lignin.widget.model.response.WidgetResponse;
 import baby.lignin.widget.service.WidgetService;
 import baby.lignin.workspace.model.request.WorkspaceCreateRequest;
@@ -72,8 +69,8 @@ public class WidgetController {
 
     @Operation(summary = "widget 삭제", description = "widget 삭제")
     @DeleteMapping()
-    public ApiResponse<ApiResponse.SuccessBody<WidgetResponse>> deleteWidget(@RequestBody WidgetImageRequest request) throws Exception {
-        return ApiResponseGenerator.success(widgetService.updateImageWidget(request), HttpStatus.OK, MessageCode.SUCCESS);
+    public ApiResponse<ApiResponse.SuccessBody<WidgetResponse>> deleteWidget(@RequestBody WidgetDeleteRequest request) throws Exception {
+        return ApiResponseGenerator.success(widgetService.deleteWidget(request), HttpStatus.OK, MessageCode.SUCCESS);
     }
 
 

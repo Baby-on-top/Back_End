@@ -7,10 +7,7 @@ import baby.lignin.auth.repository.MemberRepository;
 import baby.lignin.auth.util.converter.MemberConverter;
 import baby.lignin.image.service.AwsS3Service;
 import baby.lignin.widget.entity.WidgetEntitiy;
-import baby.lignin.widget.model.request.WidgetAddRequest;
-import baby.lignin.widget.model.request.WidgetImageRequest;
-import baby.lignin.widget.model.request.WidgetTitleRequest;
-import baby.lignin.widget.model.request.WidgetXYRequest;
+import baby.lignin.widget.model.request.*;
 import baby.lignin.widget.model.response.WidgetResponse;
 import baby.lignin.widget.repository.WidgetRepository;
 import baby.lignin.widget.support.converter.WidgetConverter;
@@ -85,6 +82,14 @@ public class WidgetServiceImpl implements WidgetService {
         WidgetEntitiy widgetEntitiy = widgetRepository.findById(request.getId()).orElseThrow(() -> new Exception("찾는 위젯이 없습니다."));
         widgetEntitiy.changeImageInfo(request.getWidgetImage());
         widgetRepository.save(widgetEntitiy);
+
+        return WidgetConverter.from(widgetEntitiy);
+    }
+
+    @Override
+    public WidgetResponse deleteWidget(WidgetDeleteRequest request) throws Exception {
+        WidgetEntitiy widgetEntitiy = widgetRepository.findById(request.getId()).orElseThrow(() -> new Exception("찾는 위젯이 없습니다.!"));
+        widgetRepository.delete(widgetEntitiy);
 
         return WidgetConverter.from(widgetEntitiy);
     }

@@ -2,10 +2,7 @@ package baby.lignin.widget.service;
 
 
 import baby.lignin.auth.model.response.MemberResponse;
-import baby.lignin.widget.model.request.WidgetAddRequest;
-import baby.lignin.widget.model.request.WidgetImageRequest;
-import baby.lignin.widget.model.request.WidgetTitleRequest;
-import baby.lignin.widget.model.request.WidgetXYRequest;
+import baby.lignin.widget.model.request.*;
 import baby.lignin.widget.model.response.WidgetResponse;
 import baby.lignin.workspace.model.request.WorkspaceCreateRequest;
 import baby.lignin.workspace.model.request.WorkspaceDeleteRequest;
@@ -27,5 +24,7 @@ public interface WidgetService {
     public WidgetResponse updateTitleWidget(WidgetTitleRequest request) throws Exception;
 
     public WidgetResponse updateImageWidget(WidgetImageRequest request) throws Exception;
+
+    public WidgetResponse deleteWidget(WidgetDeleteRequest request) throws Exception;
 
 }
