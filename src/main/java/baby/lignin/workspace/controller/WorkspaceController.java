@@ -13,6 +13,7 @@ import baby.lignin.support.ApiResponse;
 import baby.lignin.support.ApiResponseGenerator;
 import baby.lignin.support.MessageCode;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,7 +22,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
+import java.util.*;
 
 @Tag(name = "Workspace", description = "WorkSpace API")
 @RequiredArgsConstructor
@@ -91,7 +92,7 @@ public class WorkspaceController {
                 .secure(true)
                 .maxAge(5 * 60)
                 .build();
-        response.addHeader("Set-Cookie", cookie.toString());
+        response.addHeader("Set-Cookie", cookie.toString())
         return "redirect:http://localhost:3000/invite-check";
     }
 
@@ -99,6 +100,7 @@ public class WorkspaceController {
     @GetMapping("/invite")
     public ApiResponse<ApiResponse.SuccessBody<Void>> invite(@RequestHeader("Token") String token, Long workspaceId, HttpServletResponse response) {
         WorkspaceMemberResponse memberResponse = workspaceService.invite(token, workspaceId);
+
 //        Cookie cookie = new Cookie("inviteWorkspaceId", null);
 //        cookie.setMaxAge(0);
 //        cookie.setPath("/");
@@ -111,6 +113,7 @@ public class WorkspaceController {
                 .maxAge(0)
                 .build();
         response.addHeader("Set-Cookie", cookie.toString());
+
         return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.SUCCESS);
     }
 
