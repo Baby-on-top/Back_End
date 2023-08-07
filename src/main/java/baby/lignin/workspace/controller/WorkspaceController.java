@@ -92,7 +92,7 @@ public class WorkspaceController {
                 .maxAge(5 * 60)
                 .build();
         response.addHeader("Set-Cookie", cookie.toString());
-        return "redirect:http://localhost:3000/invite-check";
+        return "redirect:http://gg.lignin.today/invite-check";
     }
 
     @Operation(summary = "WorkSpace 초대", description = "WorkSpace 초대")
