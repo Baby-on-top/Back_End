@@ -92,7 +92,7 @@ public class WorkspaceController {
                 .secure(true)
                 .maxAge(5 * 60)
                 .build();
-        response.addHeader("Set-Cookie", cookie.toString())
+        response.addHeader("Set-Cookie", cookie.toString());
         return "redirect:http://localhost:3000/invite-check";
     }
 
