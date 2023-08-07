@@ -5,6 +5,8 @@ import baby.lignin.auth.config.TokenResolver;
 import baby.lignin.auth.model.response.MemberResponse;
 import baby.lignin.auth.repository.MemberRepository;
 import baby.lignin.auth.util.converter.MemberConverter;
+import baby.lignin.board.entity.BoardEntity;
+import baby.lignin.board.repository.BoardRepository;
 import baby.lignin.image.service.AwsS3Service;
 import baby.lignin.workspace.entity.WorkspaceEntitiy;
 import baby.lignin.workspace.entity.WorkspaceMemberEntity;
@@ -30,12 +32,12 @@ import java.util.stream.Collectors;
 @Service
 public class WorkspaceServiceImpl implements WorkspaceService {
 
-
     private final WorkspaceRepository workspaceRepository;
     private final WorkspaceMemberRepository workspaceMemberRepository;
     private final MemberRepository memberRepository;
     private final TokenResolver tokenResolver;
     private final AwsS3Service awsS3Service;
+    private final BoardRepository boardRepository;
 
     @Override
     public List<WorkspaceResponse> findAllList() {
@@ -89,6 +91,11 @@ public class WorkspaceServiceImpl implements WorkspaceService {
         String spaceImage = awsS3Service.uploadImage(multipartFile);
         WorkspaceEntitiy workspaceEntitiy = workspaceRepository.findById(request.getWorkspaceId()).orElseThrow(() -> new Exception("찾는 워크 스페이스가 없습니다.!"));
         workspaceEntitiy.changeWorkSpaceInfo(request, spaceImage);
+        List<BoardEntity> boardEntities = boardRepository.findByWorkspaceId(request.getWorkspaceId());
+
+        for (BoardEntity boardEntity : boardEntities) {
+            boardEntity.changeBoardWorkspaceName(request.getWorkspaceName());
+        }
 
         workspaceRepository.save(workspaceEntitiy);
         return WorkspaceConverter.from(workspaceEntitiy);

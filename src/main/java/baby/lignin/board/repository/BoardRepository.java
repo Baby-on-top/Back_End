@@ -12,5 +12,6 @@ import java.util.List;
 public interface BoardRepository extends JpaRepository<BoardEntity, Long> {
     List<BoardEntity> findByWorkspaceIdAndId(Long workspaceId, Long Id);
 
+    List<BoardEntity> findByWorkspaceId(Long workspaceId);
     List<BoardEntity> findByWorkspaceIdAndBoardNameContainingAndId(Long workspaceId, String searchKeyword, Long Id);
 }

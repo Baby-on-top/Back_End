@@ -51,6 +51,10 @@ public class BoardEntity {
         this.updateAt = LocalDateTime.now();
     }
 
+    public void changeBoardWorkspaceName(String workspaceName){
+        this.workspaceName = workspaceName;
+    }
+
     public void delete() {
         this.deleted = true;
     }
