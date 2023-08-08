@@ -98,6 +98,7 @@ public class WorkspaceController {
     @Operation(summary = "WorkSpace 초대", description = "WorkSpace 초대")
     @GetMapping("/invite")
     public ApiResponse<ApiResponse.SuccessBody<Void>> invite(@RequestHeader("Token") String token, Long workspaceId, HttpServletResponse response) {
+        System.out.println("🚨workspaceId = " + workspaceId);
         WorkspaceMemberResponse memberResponse = workspaceService.invite(token, workspaceId);
 //        Cookie cookie = new Cookie("inviteWorkspaceId", null);
 //        cookie.setMaxAge(0);
@@ -110,7 +111,8 @@ public class WorkspaceController {
                 .secure(true)
                 .maxAge(0)
                 .build();
-        response.addHeader("Set-Cookie", cookie.toString());
+        //response.addHeader("Set-Cookie", cookie.toString());
+
         return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.SUCCESS);
     }
 
