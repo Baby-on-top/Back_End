@@ -10,7 +10,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(final CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOriginPatterns("https://lignin.today")
+                .allowedOriginPatterns("*")
                 .allowedHeaders("Content-Type", "X-Requested-With", "accept", "Origin", "Access-Control-Request-Method",
                         "Access-Control-Request-Headers", "Token", "Set-Cookie")
                 .allowCredentials(true)

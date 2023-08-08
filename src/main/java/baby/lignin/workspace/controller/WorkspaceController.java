@@ -85,12 +85,13 @@ public class WorkspaceController {
 //        cookie.setMaxAge(5 * 60);
 //        cookie.setSecure(true);
 //        response.addCookie(cookie);
+
         ResponseCookie cookie = ResponseCookie.from("inviteWorkspaceId", Long.toString(workspaceId))
                 .path("/")
                 .sameSite("None")
                 .httpOnly(false)
                 .secure(true)
-                .maxAge(Duration.ofMinutes(5))
+                .maxAge(60 * 60 * 24 * 7)
                 .build();
         response.addHeader("Set-Cookie", cookie.toString());
         return "redirect:https://lignin.today/invite-check";
