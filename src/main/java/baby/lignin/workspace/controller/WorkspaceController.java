@@ -21,6 +21,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.Duration;
 import java.util.List;
 
 @Tag(name = "Workspace", description = "WorkSpace API")
@@ -89,7 +90,7 @@ public class WorkspaceController {
                 .sameSite("None")
                 .httpOnly(false)
                 .secure(true)
-                .maxAge(5 * 60)
+                .maxAge(Duration.ofMinutes(5))
                 .build();
         response.addHeader("Set-Cookie", cookie.toString());
         return "redirect:https://lignin.today/invite-check";
