@@ -87,6 +87,7 @@ public class WorkspaceController {
 //        response.addCookie(cookie);
 
         ResponseCookie cookie = ResponseCookie.from("inviteWorkspaceId", Long.toString(workspaceId))
+                .domain("lignin.today")
                 .path("/")
                 .sameSite("None")
                 .httpOnly(false)
