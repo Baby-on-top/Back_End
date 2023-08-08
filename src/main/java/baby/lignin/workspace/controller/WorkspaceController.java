@@ -77,33 +77,33 @@ public class WorkspaceController {
     @Operation(summary = "WorkSpace 초대링크", description = "WorkSpace 초대링크")
     @GetMapping("/invite/{workspaceId}")
     public String inviteLink(@PathVariable Long workspaceId, HttpServletResponse response) {
-        Cookie cookie = new Cookie("inviteWorkspaceId", Long.toString(workspaceId));
-
-        cookie.setDomain("localhost");
-        cookie.setPath("/");
-        cookie.setMaxAge(5 * 60);
-        cookie.setSecure(true);
-        response.addCookie(cookie);
-//        ResponseCookie cookie = ResponseCookie.from("inviteWorkspaceId", Long.toString(workspaceId))
-//                .path("/")
-//                .sameSite("None")
-//                .httpOnly(false)
-//                .secure(true)
-//                .maxAge(5 * 60)
-//                .build();
-//        response.addHeader("Set-Cookie", cookie.toString());
+//        Cookie cookie = new Cookie("inviteWorkspaceId", Long.toString(workspaceId));
+//
+//        cookie.setDomain("localhost");
+//        cookie.setPath("/");
+//        cookie.setMaxAge(5 * 60);
+//        cookie.setSecure(true);
+//        response.addCookie(cookie);
+        ResponseCookie cookie = ResponseCookie.from("inviteWorkspaceId", Long.toString(workspaceId))
+                .path("/")
+                .sameSite("None")
+                .httpOnly(false)
+                .secure(true)
+                .maxAge(5 * 60)
+                .build();
+        response.addHeader("Set-Cookie", cookie.toString());
         return "redirect:https://lignin.today/invite-check";
+        //return "redirect:http://localhost:3000/invite-check";
     }
 
     @Operation(summary = "WorkSpace 초대", description = "WorkSpace 초대")
     @GetMapping("/invite")
     public ApiResponse<ApiResponse.SuccessBody<Void>> invite(@RequestHeader("Token") String token, Long workspaceId, HttpServletResponse response) {
-        System.out.println("🚨workspaceId = " + workspaceId);
-        WorkspaceMemberResponse memberResponse = workspaceService.invite(token, workspaceId);
-        Cookie cookie = new Cookie("inviteWorkspaceId", null);
-        cookie.setMaxAge(0);
-        cookie.setPath("/");
-        response.addCookie(cookie);
+//        WorkspaceMemberResponse memberResponse = workspaceService.invite(token, workspaceId);
+//        Cookie cookie = new Cookie("inviteWorkspaceId", null);
+//        cookie.setMaxAge(0);
+//        cookie.setPath("/");
+//        response.addCookie(cookie);
 //        ResponseCookie cookie = ResponseCookie.from("inviteWorkspaceId", "")
 //                .path("/")
 //                .sameSite("None")
@@ -111,7 +111,7 @@ public class WorkspaceController {
 //                .secure(true)
 //                .maxAge(0)
 //                .build();
-        //response.addHeader("Set-Cookie", cookie.toString());
+//        response.addHeader("Set-Cookie", cookie.toString());
 
         return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.SUCCESS);
     }
