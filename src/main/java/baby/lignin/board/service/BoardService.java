@@ -12,6 +12,9 @@ import baby.lignin.workspace.entity.WorkspaceEntitiy;
 import baby.lignin.workspace.repository.WorkspaceRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,8 +36,8 @@ public class BoardService {
     // new 안써도 됨. 알아서 생성, 주입을 해줌.
     private final BoardRepository boardRepository;
 
-    public String makeRedisKey(String token, BoardBrowseRequest request) {
-        return token + ":" + request.getWorkspaceId() + ":" + request.getSearchKeyword();
+    public String makeRedisKey(String token, String workspaceId) {
+        return token + ":" + workspaceId;
     }
 
 
@@ -46,7 +49,7 @@ public class BoardService {
 
     private final WorkspaceRepository workspaceRepository;
 
-//    @Cacheable(cacheNames = "boards", key = "{#root.target.makeRedisKey(#token, #request)}")
+    @Cacheable(cacheNames = "boards", key = "{#root.target.makeRedisKey(#token, #request.workspaceId)}")
     public List<BoardResponse> getBoards(String token, BoardBrowseRequest request){
 
         List<BoardEntity> boardEntities = null;
@@ -87,7 +90,8 @@ public class BoardService {
         return responses;
     }
 
-    public BoardResponse generateBoard(String token, MultipartFile multipartFile,BoardAddRequest request) throws Exception {
+    @CacheEvict(cacheNames = "boards", key = "{#root.target.makeRedisKey(#token, #request.workspaceId)}")
+    public BoardResponse generateBoard(String token, MultipartFile multipartFile, BoardAddRequest request) throws Exception {
         String boardImage = awsS3Service.uploadImage(multipartFile);
 
         WorkspaceEntitiy workspaceName = workspaceRepository.findById(request.getWorkspaceId()).orElseThrow(() -> new Exception());
@@ -101,6 +105,7 @@ public class BoardService {
         return BoardConverter.from(boardEntity);
     }
 
+    @CacheEvict(cacheNames = "boards", key = "{#root.target.makeRedisKey(#token, #request.workspaceId)}")
     public BoardResponse changeBoardInfo(MultipartFile multipartFile, BoardEditRequest request) {
         BoardEntity boardEntity = boardRepository.findById(request.getBoardId()).orElseThrow();
 
@@ -110,6 +115,7 @@ public class BoardService {
         return BoardConverter.from(boardEntity);
     }
 
+    @CacheEvict(cacheNames = "boards", key = "{#root.target.makeRedisKey(#token, #request.workspaceId)}")
     public void deleteBoard(BoardDeleteRequest request) {
         boardRepository.deleteById(request.getBoardId());
     }
